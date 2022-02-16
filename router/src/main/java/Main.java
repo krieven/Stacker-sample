@@ -1,25 +1,19 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
-import stacker.common.config.router.RouterConfig;
-import stacker.router.server.HttpTransport;
-import stacker.router.server.RouterServer;
-import stacker.router.server.SimpleSessionStorage;
-
-import java.io.IOException;
+import io.github.krieven.stacker.common.config.router.RouterConfig;
+import io.github.krieven.stacker.router.server.HttpTransport;
+import io.github.krieven.stacker.router.server.RouterServer;
+import io.github.krieven.stacker.router.server.SimpleSessionStorage;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         RouterServer routerServer = new RouterServer(new HttpTransport(), new SimpleSessionStorage(), 8080);
 
-        try {
-            RouterConfig config = new ObjectMapper().readValue(Main.class.getResourceAsStream("config.json"), RouterConfig.class);
-            routerServer.setConfig(config);
+        RouterConfig config = new ObjectMapper().readValue(Main.class.getResourceAsStream("config.json"), RouterConfig.class);
+
+        if(routerServer.setConfig(config)){
             routerServer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
     }

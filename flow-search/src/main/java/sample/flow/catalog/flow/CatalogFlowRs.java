@@ -1,4 +1,4 @@
 package sample.flow.catalog.flow;
 
-public class CatalogFlowRequest {
+public class CatalogFlowRs {
 }

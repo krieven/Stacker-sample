@@ -1,8 +1,8 @@
 package sample.flow.catalog.states.category.contract;
 
-public class CategoryAnswer {
+public class CategoryA {
     private String categoryId;
-    private String action;
+    private Action action;
 
     public String getCategoryId() {
         return categoryId;
@@ -12,11 +12,15 @@ public class CategoryAnswer {
         this.categoryId = categoryId;
     }
 
-    public String getAction() {
+    public Action getAction() {
         return action;
     }
 
-    public void setAction(String action) {
+    public void setAction(Action action) {
         this.action = action;
+    }
+
+    public enum Action {
+        BACK, UP, OK
     }
 }

@@ -1,11 +1,14 @@
 package sample.flow.catalog.states.category;
 
-import sample.flow.catalog.states.category.contract.CategoryAnswer;
+import sample.flow.catalog.states.category.contract.CategoryA;
 
 
 public interface CategoryData {
 
-    CategoryAnswer getCategoryAnswer();
+    CategoryA getCategoryA();
 
-    void setCategoryAnswer(CategoryAnswer answer);
+    void setCategoryA(CategoryA answer);
+
+    String takeRootCategoryId();
+
 }
