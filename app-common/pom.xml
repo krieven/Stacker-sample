@@ -15,7 +15,7 @@
         <dependency>
             <groupId>io.github.krieven.stacker</groupId>
             <artifactId>stacker-flow</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${stacker.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
