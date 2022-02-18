@@ -1,7 +1,7 @@
 package sample.flow.catalog.states.product.contract;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import sample.model.Pair;
+import sample.model.KeyVal;
 import sample.model.Product;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class ProductQ {
     List<Product> products;
 
     @JsonProperty(required = true)
-    private List<Pair> fieldNames;
+    private List<KeyVal> fieldNames;
 
     public List<ProductFilter> getProductFilters() {
         return productFilters;
@@ -34,11 +34,11 @@ public class ProductQ {
         this.products = products;
     }
 
-    public List<Pair> getFieldNames() {
+    public List<KeyVal> getFieldNames() {
         return fieldNames;
     }
 
-    public void setFieldNames(List<Pair> listNames) {
+    public void setFieldNames(List<KeyVal> listNames) {
         fieldNames = listNames;
     }
 }
