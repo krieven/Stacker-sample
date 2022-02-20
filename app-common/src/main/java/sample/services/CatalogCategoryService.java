@@ -10,10 +10,6 @@ import java.util.stream.Collectors;
 
 public class CatalogCategoryService {
 
-    public List<Category> getCategories() {
-        return getCategories(null);
-    }
-
     public List<Category> getCategories(String parent) {
         return Stub.categories.stream().filter(
                 item -> (parent == null && item.getParent() == null) || (parent != null && parent.equals(item.getParent()))
@@ -42,4 +38,21 @@ public class CatalogCategoryService {
         ).collect(Collectors.toList());
     }
 
+    public boolean isParent(String rootCategoryId, String categoryId) {
+        if (rootCategoryId == null || rootCategoryId.equalsIgnoreCase(categoryId)) {
+            return true;
+        }
+        if (categoryId == null) {
+            return false;
+        }
+        return isParent(rootCategoryId, getParent(categoryId));
+    }
+
+    private String getParent(String categoryId) {
+        Category category = getCategory(categoryId);
+        if (category == null) {
+            return null;
+        }
+        return category.getParent();
+    }
 }

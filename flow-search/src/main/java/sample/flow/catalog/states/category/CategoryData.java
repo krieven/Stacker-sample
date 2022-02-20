@@ -9,6 +9,8 @@ public interface CategoryData {
 
     void setCategoryA(CategoryA answer);
 
-    String takeRootCategoryId();
+    String categoryGetRootCategoryId();
+
+    String categoryGetCategoryId();
 
 }

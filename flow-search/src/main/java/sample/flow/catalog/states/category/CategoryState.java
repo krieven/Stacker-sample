@@ -36,7 +36,7 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
     public CategoryState(@NotNull CatalogCategoryService catalogCategoryService) {
         super(
                 new Contract<>(CategoryQ.class, CategoryA.class, new JsonParser()),
-                new WrapQuestion<>(),
+                new WrapQuestion(),
                 Exits.values()
         );
 
@@ -56,13 +56,32 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
     }
 
     public @NotNull StateCompletion onEnter(FlowContext<? extends CategoryData> flowContext) {
+
+        String categoryId = flowContext.getFlowData().categoryGetCategoryId();
+        String rootCategoryId = flowContext.getFlowData().categoryGetRootCategoryId();
+
+        //if categoryId is not categoryId or if we trying to go upper than the Flow argument root
+        //then exit to back
+        if ((categoryId != null && catalogCategoryService.getCategory(categoryId) == null) ||
+                !catalogCategoryService.isParent(rootCategoryId, categoryId)) {
+            return exitState(Exits.BACK, flowContext);
+        }
+        //if chosen category has no children categories then go forward
+        if (catalogCategoryService.getCategories(categoryId).isEmpty()) {
+            CategoryA answer = new CategoryA();
+            answer.setCategoryId(categoryId);
+            flowContext.getFlowData().setCategoryA(answer);
+
+            return exitState(Exits.FORWARD, flowContext);
+        }
+        //otherwise send question
         CategoryQ question = new CategoryQ();
 
         question.setTitle("Please select product category");
 
         question.setCategories(
                 catalogCategoryService.getCategories(
-                        flowContext.getFlowData().takeRootCategoryId()
+                        categoryId
                 )
         );
 
@@ -97,7 +116,7 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
         String id = flowContext.getFlowData().getCategoryA() == null ? null :
                 flowContext.getFlowData().getCategoryA().getCategoryId();
 
-        id = id == null ? flowContext.getFlowData().takeRootCategoryId() : id;
+        id = id == null ? flowContext.getFlowData().categoryGetRootCategoryId() : id;
 
         Category current = catalogCategoryService.getCategory(id);
         String parent = current == null ? null : current.getParent();

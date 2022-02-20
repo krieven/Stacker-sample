@@ -7,7 +7,6 @@ import io.github.krieven.stacker.flow.FlowContext;
 import io.github.krieven.stacker.flow.StateCompletion;
 import io.github.krieven.stacker.flow.StateTerminator;
 import org.jetbrains.annotations.NotNull;
-import sample.contract.WrapQuestion;
 import sample.flow.catalog.states.product.ProductState;
 import sample.services.CatalogCategoryService;
 import sample.flow.catalog.states.category.CategoryState;
@@ -58,7 +57,7 @@ public class CatalogFlow extends BaseFlow<CatalogFlowRq, CatalogFlowRs, FlowData
     }
 
     protected CatalogFlowRs makeReturn(FlowContext<FlowData> flowContext) {
-        return null;
+        return new CatalogFlowRs();
     }
 
     protected @NotNull StateCompletion onStart(FlowContext<FlowData> flowContext) {

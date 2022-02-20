@@ -20,7 +20,7 @@ public class ProductState extends StateQuestion<ProductQ, ProductA, ProductData,
     public ProductState(CatalogProductService productService) {
         super(
                 new Contract<>(ProductQ.class, ProductA.class, new JsonParser()),
-                new WrapQuestion<>(),
+                new WrapQuestion(),
                 Exits.values()
         );
         this.productService = productService;
@@ -43,7 +43,7 @@ public class ProductState extends StateQuestion<ProductQ, ProductA, ProductData,
         ProductQ question = new ProductQ();
 
         question.setProducts(byCategory);
-        question.setFieldNames(productService.getListNames(categoryId));
+        question.setFieldNames(productService.getFieldNamesByCategory(categoryId));
 
         return sendQuestion(question, flowContext);
     }
