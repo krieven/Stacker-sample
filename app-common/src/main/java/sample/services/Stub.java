@@ -2,9 +2,10 @@ package sample.services;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import sample.model.CategoryLink;
 import sample.model.Category;
 import sample.model.Product;
-import sample.model.Pair;
+import sample.model.KeyVal;
 
 import java.util.List;
 import java.util.Map;
@@ -35,32 +36,32 @@ class Stub {
             new Category(Cat.MOUSE.name(), Cat.ADD.name(), "Mouse")
     );
 
-    static final List<CatalogCategoryService.AdditionalDevice> additionals = ImmutableList.of(
-            new CatalogCategoryService.AdditionalDevice(Cat.DESKTOP.name(), Cat.DISPLAY.name()),
-            new CatalogCategoryService.AdditionalDevice(Cat.DESKTOP.name(), Cat.KEYBOARD.name()),
-            new CatalogCategoryService.AdditionalDevice(Cat.DESKTOP.name(), Cat.MOUSE.name()),
-            new CatalogCategoryService.AdditionalDevice(Cat.LAPTOP.name(), Cat.MOUSE.name())
+    static final List<CategoryLink> additionals = ImmutableList.of(
+            CategoryLink.build(Cat.DESKTOP.name(), Cat.DISPLAY.name()),
+            CategoryLink.build(Cat.DESKTOP.name(), Cat.KEYBOARD.name()),
+            CategoryLink.build(Cat.DESKTOP.name(), Cat.MOUSE.name()),
+            CategoryLink.build(Cat.LAPTOP.name(), Cat.MOUSE.name())
     );
 
-    static final Map<String, List<Pair>> fieldNames = ImmutableMap.of(
+    static final Map<String, List<KeyVal>> fieldNames = ImmutableMap.of(
             Cat.DESKTOP.name(), ImmutableList.of(
-                    Pair.build(FieldKey.FORCE.name(), "Performance"),
-                    Pair.build(FieldKey.SIZE.name(), "Size")
+                    KeyVal.build(FieldKey.FORCE.name(), "Performance"),
+                    KeyVal.build(FieldKey.SIZE.name(), "Size")
             ),
             Cat.LAPTOP.name(), ImmutableList.of(
-                    Pair.build(FieldKey.FORCE.name(), "Performance"),
-                    Pair.build(FieldKey.SIZE.name(), "Size")
+                    KeyVal.build(FieldKey.FORCE.name(), "Performance"),
+                    KeyVal.build(FieldKey.SIZE.name(), "Size")
             ),
             Cat.DISPLAY.name(), ImmutableList.of(
-                    Pair.build(FieldKey.SIZE.name(), "Size"),
-                    Pair.build(FieldKey.DENSITY.name(), "Screen Density")
+                    KeyVal.build(FieldKey.SIZE.name(), "Size"),
+                    KeyVal.build(FieldKey.DENSITY.name(), "Screen Density")
             ),
             Cat.KEYBOARD.name(), ImmutableList.of(
-                    Pair.build(FieldKey.SIZE.name(), "Size"),
-                    Pair.build(FieldKey.WIRELESS.name(), "Wireless")
+                    KeyVal.build(FieldKey.SIZE.name(), "Size"),
+                    KeyVal.build(FieldKey.WIRELESS.name(), "Wireless")
             ),
             Cat.MOUSE.name(), ImmutableList.of(
-                    Pair.build(FieldKey.WIRELESS.name(), "Wireless")
+                    KeyVal.build(FieldKey.WIRELESS.name(), "Wireless")
             )
     );
 

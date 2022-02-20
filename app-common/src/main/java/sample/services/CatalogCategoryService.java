@@ -1,5 +1,6 @@
 package sample.services;
 
+import sample.model.CategoryLink;
 import sample.model.Category;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class CatalogCategoryService {
         List<String> list = Stub.additionals.stream().filter(
                 item -> item.getCategory().equals(categoryId)
         ).map(
-                AdditionalDevice::getAddCategory
+                CategoryLink::getAddCategory
         ).collect(Collectors.toList());
 
         if (list.isEmpty()) {
@@ -41,21 +42,4 @@ public class CatalogCategoryService {
         ).collect(Collectors.toList());
     }
 
-    static class AdditionalDevice {
-        private String category;
-        private String addCategory;
-
-        AdditionalDevice(String category, String addCategory) {
-            this.category = category;
-            this.addCategory = addCategory;
-        }
-
-        private String getCategory() {
-            return category;
-        }
-
-        private String getAddCategory() {
-            return addCategory;
-        }
-    }
 }

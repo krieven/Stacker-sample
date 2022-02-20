@@ -1,6 +1,6 @@
 package sample.model;
 
-public class Pair {
+public class KeyVal {
     private String key;
     private String val;
 
@@ -20,8 +20,8 @@ public class Pair {
         this.val = val;
     }
 
-    public static Pair build(String key, String val) {
-        Pair res = new Pair();
+    public static KeyVal build(String key, String val) {
+        KeyVal res = new KeyVal();
         res.setKey(key);
         res.setVal(val);
 

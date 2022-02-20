@@ -2,7 +2,7 @@ package sample.services;
 
 import org.jetbrains.annotations.NotNull;
 import sample.model.Product;
-import sample.model.Pair;
+import sample.model.KeyVal;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +21,7 @@ public class CatalogProductService {
                 .sorted((a, b) -> a.compareTo(b)*-1).collect(Collectors.toList());
     }
 
-    public List<Pair> getListNames(@NotNull String category){
+    public List<KeyVal> getListNames(@NotNull String category){
         return Stub.fieldNames.get(category);
     }
 }
