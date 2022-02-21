@@ -7,6 +7,7 @@ import io.github.krieven.stacker.flow.FlowContext;
 import io.github.krieven.stacker.flow.StateCompletion;
 import io.github.krieven.stacker.flow.StateTerminator;
 import org.jetbrains.annotations.NotNull;
+import sample.contract.WrapQuestion;
 import sample.flow.catalog.states.product.ProductState;
 import sample.services.CatalogCategoryService;
 import sample.flow.catalog.states.category.CategoryState;
@@ -35,13 +36,13 @@ public class CatalogFlow extends BaseFlow<CatalogFlowRq, CatalogFlowRs, FlowData
         addState(END, new StateTerminator<>());
         addState(
                 CATEGORY,
-                new CategoryState(new CatalogCategoryService())
+                new CategoryState(new CatalogCategoryService(), new WrapQuestion<>())
                         .withExit(CategoryState.Exits.BACK, END)
                         .withExit(CategoryState.Exits.FORWARD, CATEGORY)
         );
         addState(
                 PRODUCT,
-                new ProductState(new CatalogProductService())
+                new ProductState(new CatalogProductService(), new WrapQuestion<>())
                         .withExit(ProductState.Exits.NO_CATEGORY, END)
                         .withExit(ProductState.Exits.PRODUCT_CHOOSEN, END)
                         .withExit(ProductState.Exits.GET_DISCOUNT, IDENTIFICATION)

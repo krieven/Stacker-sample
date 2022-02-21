@@ -1,7 +1,6 @@
 import io.github.krieven.stacker.common.*;
 import io.github.krieven.stacker.common.dto.Command;
 import io.github.krieven.stacker.flow.BaseFlow;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
 import sample.contract.ContractWrapper;
@@ -39,6 +38,7 @@ public class TestCatalogFlow {
                         CategoryQ question = extractQuestion(command, CategoryQ.class);
                         Assert.assertNotNull(question);
                         Assert.assertEquals( 2, question.getCategories().size());
+
 
                         FlowData flowData = extractFlowData(command, FlowData.class);
                         Assert.assertNotNull(flowData);

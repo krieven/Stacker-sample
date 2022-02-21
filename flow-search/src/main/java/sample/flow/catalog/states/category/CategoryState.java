@@ -2,6 +2,7 @@ package sample.flow.catalog.states.category;
 
 import com.google.common.collect.ImmutableMap;
 import org.jetbrains.annotations.NotNull;
+import sample.contract.ContractWrapper;
 import sample.contract.WrapQuestion;
 import sample.model.Category;
 import sample.flow.catalog.states.category.contract.CategoryA;
@@ -33,10 +34,10 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
             CategoryA.Action.BACK, (q, f) -> exitState(Exits.BACK, f)
     );
 
-    public CategoryState(@NotNull CatalogCategoryService catalogCategoryService) {
+    public CategoryState(@NotNull CatalogCategoryService catalogCategoryService, BiFunction<CategoryQ, FlowContext<?>, ?> wrapper) {
         super(
                 new Contract<>(CategoryQ.class, CategoryA.class, new JsonParser()),
-                new WrapQuestion(),
+                wrapper,
                 Exits.values()
         );
 
