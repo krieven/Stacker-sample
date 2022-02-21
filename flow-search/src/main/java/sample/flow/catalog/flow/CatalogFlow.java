@@ -38,7 +38,7 @@ public class CatalogFlow extends BaseFlow<CatalogFlowRq, CatalogFlowRs, FlowData
                 CATEGORY,
                 new CategoryState(new CatalogCategoryService(), new WrapQuestion<>())
                         .withExit(CategoryState.Exits.BACK, END)
-                        .withExit(CategoryState.Exits.FORWARD, CATEGORY)
+                        .withExit(CategoryState.Exits.FORWARD, PRODUCT)
         );
         addState(
                 PRODUCT,

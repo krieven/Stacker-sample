@@ -22,7 +22,7 @@ public class FlowData implements CategoryData, ProductData {
     }
 
     public void setCategoryA(CategoryA answer) {
-        parentCategoryId = null;
+        setParentCategoryId(null);
         setCategoryAnswer(answer);
     }
 
@@ -33,7 +33,7 @@ public class FlowData implements CategoryData, ProductData {
 
     @Override
     public String categoryGetCategoryId() {
-        String id = getCategoryA() == null ? parentCategoryId : getCategoryA().getCategoryId();
+        String id = getCategoryA() == null ? getParentCategoryId() : getCategoryA().getCategoryId();
         return id == null ? categoryGetRootCategoryId() : id;
     }
 
@@ -45,7 +45,7 @@ public class FlowData implements CategoryData, ProductData {
     @Override
     public void setProductParentCategoryId(String parentId) {
         setCategoryA(null);
-        this.parentCategoryId = parentId;
+        this.setParentCategoryId(parentId);
     }
 
 
@@ -63,5 +63,13 @@ public class FlowData implements CategoryData, ProductData {
 
     public void setCategoryAnswer(CategoryA categoryAnswer) {
         this.categoryAnswer = categoryAnswer;
+    }
+
+    public String getParentCategoryId() {
+        return parentCategoryId;
+    }
+
+    public void setParentCategoryId(String parentCategoryId) {
+        this.parentCategoryId = parentCategoryId;
     }
 }

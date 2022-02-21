@@ -2,8 +2,6 @@ package sample.flow.catalog.states.category;
 
 import com.google.common.collect.ImmutableMap;
 import org.jetbrains.annotations.NotNull;
-import sample.contract.ContractWrapper;
-import sample.contract.WrapQuestion;
 import sample.model.Category;
 import sample.flow.catalog.states.category.contract.CategoryA;
 import sample.flow.catalog.states.category.contract.CategoryQ;

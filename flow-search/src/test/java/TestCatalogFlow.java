@@ -59,6 +59,7 @@ public class TestCatalogFlow {
         input.setType(Command.Type.OPEN);
         input.setFlow(FLOW_NAME);
         CatalogFlowRq rq = new CatalogFlowRq();
+        rq.setCategoryId("COMP");
 
         input.setContentBody(parser.serialize(rq));
 
