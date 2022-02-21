@@ -36,13 +36,13 @@ public class CatalogFlow extends BaseFlow<CatalogFlowRq, CatalogFlowRs, FlowData
         addState(END, new StateTerminator<>());
         addState(
                 CATEGORY,
-                new CategoryState(new CatalogCategoryService())
+                new CategoryState(new CatalogCategoryService(), new WrapQuestion<>())
                         .withExit(CategoryState.Exits.BACK, END)
-                        .withExit(CategoryState.Exits.FORWARD, CATEGORY)
+                        .withExit(CategoryState.Exits.FORWARD, PRODUCT)
         );
         addState(
                 PRODUCT,
-                new ProductState(new CatalogProductService())
+                new ProductState(new CatalogProductService(), new WrapQuestion<>())
                         .withExit(ProductState.Exits.NO_CATEGORY, END)
                         .withExit(ProductState.Exits.PRODUCT_CHOOSEN, END)
                         .withExit(ProductState.Exits.GET_DISCOUNT, IDENTIFICATION)
@@ -58,7 +58,7 @@ public class CatalogFlow extends BaseFlow<CatalogFlowRq, CatalogFlowRs, FlowData
     }
 
     protected CatalogFlowRs makeReturn(FlowContext<FlowData> flowContext) {
-        return null;
+        return new CatalogFlowRs();
     }
 
     protected @NotNull StateCompletion onStart(FlowContext<FlowData> flowContext) {

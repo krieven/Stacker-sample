@@ -21,7 +21,7 @@ public class CatalogProductService {
                 .sorted((a, b) -> a.compareTo(b)*-1).collect(Collectors.toList());
     }
 
-    public List<KeyVal> getListNames(@NotNull String category){
+    public List<KeyVal> getFieldNamesByCategory(@NotNull String category){
         return Stub.fieldNames.get(category);
     }
 }

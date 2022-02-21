@@ -5,6 +5,8 @@ public class Category {
     private String parent;
     private String title;
 
+    public Category() {
+    }
 
     public Category(String id, String parent, String title){
         this.id = id;

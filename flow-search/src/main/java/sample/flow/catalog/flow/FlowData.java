@@ -9,6 +9,7 @@ import java.util.Optional;
 public class FlowData implements CategoryData, ProductData {
     private CatalogFlowRq flowRequest;
     private CategoryA categoryAnswer;
+    private String parentCategoryId;
 
     public static FlowData build(CatalogFlowRq flowRequest) {
         FlowData result = new FlowData();
@@ -21,17 +22,30 @@ public class FlowData implements CategoryData, ProductData {
     }
 
     public void setCategoryA(CategoryA answer) {
+        setParentCategoryId(null);
         setCategoryAnswer(answer);
     }
 
     @Override
-    public String takeRootCategoryId() {
+    public String categoryGetRootCategoryId() {
         return Optional.ofNullable(getFlowRequest()).orElseGet(CatalogFlowRq::new).getCategoryId();
     }
 
     @Override
+    public String categoryGetCategoryId() {
+        String id = getCategoryA() == null ? getParentCategoryId() : getCategoryA().getCategoryId();
+        return id == null ? categoryGetRootCategoryId() : id;
+    }
+
+    @Override
     public String takeProductCategoryId() {
-        return Optional.ofNullable(getCategoryAnswer()).orElseGet(CategoryA::new).getCategoryId();
+        return getCategoryAnswer() == null ? null : getCategoryA().getCategoryId();
+    }
+
+    @Override
+    public void setProductParentCategoryId(String parentId) {
+        setCategoryA(null);
+        this.setParentCategoryId(parentId);
     }
 
 
@@ -49,5 +63,13 @@ public class FlowData implements CategoryData, ProductData {
 
     public void setCategoryAnswer(CategoryA categoryAnswer) {
         this.categoryAnswer = categoryAnswer;
+    }
+
+    public String getParentCategoryId() {
+        return parentCategoryId;
+    }
+
+    public void setParentCategoryId(String parentCategoryId) {
+        this.parentCategoryId = parentCategoryId;
     }
 }

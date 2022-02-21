@@ -13,14 +13,15 @@ import sample.flow.catalog.states.product.contract.ProductA;
 import sample.flow.catalog.states.product.contract.ProductQ;
 
 import java.util.List;
+import java.util.function.BiFunction;
 
 public class ProductState extends StateQuestion<ProductQ, ProductA, ProductData, ProductState.Exits> {
     private final CatalogProductService productService;
 
-    public ProductState(CatalogProductService productService) {
+    public ProductState(CatalogProductService productService, BiFunction<ProductQ, FlowContext<?>, ?> wrapper) {
         super(
                 new Contract<>(ProductQ.class, ProductA.class, new JsonParser()),
-                new WrapQuestion<>(),
+                wrapper,
                 Exits.values()
         );
         this.productService = productService;
@@ -43,7 +44,7 @@ public class ProductState extends StateQuestion<ProductQ, ProductA, ProductData,
         ProductQ question = new ProductQ();
 
         question.setProducts(byCategory);
-        question.setFieldNames(productService.getListNames(categoryId));
+        question.setFieldNames(productService.getFieldNamesByCategory(categoryId));
 
         return sendQuestion(question, flowContext);
     }
