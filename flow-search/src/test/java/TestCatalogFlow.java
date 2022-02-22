@@ -77,6 +77,30 @@ public class TestCatalogFlow {
                 });
     }
 
+    @Test
+    public void testOpenLastDeep() throws SerializingException {
+        Command input = new Command();
+        input.setType(Command.Type.OPEN);
+        input.setFlow(FLOW_NAME);
+        CatalogFlowRq rq = new CatalogFlowRq();
+        rq.setCategoryId("DESKTOP");
+
+        input.setContentBody(parser.serialize(rq));
+
+        flow.handleCommand(
+                input, new ICallback<Command>() {
+                    @Override
+                    public void success(Command command) {
+                        Assert.assertNotNull(command);
+                    }
+
+                    @Override
+                    public void reject(Exception e) {
+
+                    }
+                });
+    }
+
     private <T> T extractQuestion(Command command, Class<T> dataClass) {
         try {
             ContractWrapper wrapper = parser.parse(command.getContentBody(), ContractWrapper.class);
