@@ -10,7 +10,7 @@ import io.github.krieven.stacker.flow.Contract;
 import io.github.krieven.stacker.flow.FlowContext;
 import io.github.krieven.stacker.flow.StateCompletion;
 import io.github.krieven.stacker.flow.StateQuestion;
-import sample.services.CatalogCategoryService;
+import sample.services.CatalogCategoryServiceInterface;
 
 import java.util.List;
 import java.util.Map;
@@ -19,11 +19,12 @@ import java.util.function.BiFunction;
 
 
 public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryData, CategoryState.Exits> {
-    private CatalogCategoryService catalogCategoryService;
+    private final CatalogCategoryServiceInterface catalogCategoryService;
 
-    private final Map<CategoryA.Action,
-            BiFunction<CategoryA, FlowContext<? extends CategoryData>,
-                    StateCompletion>> actionHandlers = ImmutableMap.of(
+    private final Map<
+            CategoryA.Action,
+            BiFunction<CategoryA, FlowContext<? extends CategoryData>, StateCompletion>
+            > actionHandlers = ImmutableMap.of(
 
             CategoryA.Action.OK, this::onOkAction,
 
@@ -32,7 +33,7 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
             CategoryA.Action.BACK, (q, f) -> exitState(Exits.BACK, f)
     );
 
-    public CategoryState(@NotNull CatalogCategoryService catalogCategoryService, BiFunction<CategoryQ, FlowContext<?>, ?> wrapper) {
+    public CategoryState(@NotNull CatalogCategoryServiceInterface catalogCategoryService, BiFunction<CategoryQ, FlowContext<?>, ?> wrapper) {
         super(
                 new Contract<>(CategoryQ.class, CategoryA.class, new JsonParser()),
                 wrapper,
@@ -92,7 +93,7 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
         Category category = catalogCategoryService.getCategory(answer.getCategoryId());
 
         if (category == null) {
-            return exitState(Exits.BACK, flowContext);
+            return onEnter(flowContext);
         }
 
         flowContext.getFlowData().setCategoryA(answer);

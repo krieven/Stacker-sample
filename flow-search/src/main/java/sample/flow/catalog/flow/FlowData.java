@@ -45,9 +45,8 @@ public class FlowData implements CategoryData, ProductData {
     @Override
     public void setProductParentCategoryId(String parentId) {
         setCategoryA(null);
-        this.setParentCategoryId(parentId);
+        setParentCategoryId(parentId);
     }
-
 
     public CatalogFlowRq getFlowRequest() {
         return flowRequest;

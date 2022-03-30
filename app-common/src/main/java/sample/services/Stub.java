@@ -66,7 +66,7 @@ class Stub {
     );
 
     static final List<Product> products = ImmutableList.of(
-            new Product("1", Cat.DESKTOP.name(), "SuperPower Inc 98769", 1000,
+            Product.build("1", Cat.DESKTOP.name(), "SuperPower Inc 98769", 1000,
                     ImmutableMap.of(
                             FieldKey.FORCE.name(), new Product.Field(Product.Field.Type.NUMBER, "100"),
                             FieldKey.SIZE.name(), new Product.Field(Product.Field.Type.NUMBER, "100")

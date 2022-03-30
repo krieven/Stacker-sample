@@ -6,8 +6,8 @@ public class CategoryLink {
 
     public static CategoryLink build(String category, String addCategory) {
         CategoryLink link = new CategoryLink();
-        link.category = category;
-        link.addCategory = addCategory;
+        link.setCategory(category);
+        link.setAddCategory(addCategory);
         return link;
     }
 
@@ -15,7 +15,15 @@ public class CategoryLink {
         return category;
     }
 
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public String getAddCategory() {
         return addCategory;
+    }
+
+    public void setAddCategory(String addCategory) {
+        this.addCategory = addCategory;
     }
 }

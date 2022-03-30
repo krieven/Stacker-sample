@@ -17,12 +17,18 @@ public class Product implements Comparable<Product>{
 
     private Map<String, Field> fields;
 
-    public Product(String id, String caregory, String name, double price, Map<String, Field> fields){
-        this.setId(id);
-        this.setCaregory(caregory);
-        this.setName(name);
-        this.setPrice(BigDecimal.valueOf(price));
-        this.setFields(fields);
+    public Product() {
+    }
+
+    public static Product build(String id, String caregory, String name, double price, Map<String, Field> fields){
+        Product res = new Product();
+
+        res.setId(id);
+        res.setCaregory(caregory);
+        res.setName(name);
+        res.setPrice(BigDecimal.valueOf(price));
+        res.setFields(fields);
+        return res;
     }
 
     public String getId() {

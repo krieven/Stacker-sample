@@ -8,20 +8,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class CatalogCategoryService {
+public class CatalogCategoryServiceStub implements CatalogCategoryServiceInterface {
 
+    @Override
     public List<Category> getCategories(String parent) {
         return Stub.categories.stream().filter(
                 item -> (parent == null && item.getParent() == null) || (parent != null && parent.equals(item.getParent()))
         ).collect(Collectors.toList());
     }
 
+    @Override
     public Category getCategory(String categoryId) {
         return Stub.categories.stream().filter(
                 item -> item.getId() != null && item.getId().equals(categoryId)
         ).findFirst().orElse(null);
     }
 
+    @Override
     public List<Category> getAdditionals(String categoryId) {
         List<String> list = Stub.additionals.stream().filter(
                 item -> item.getCategory().equals(categoryId)
@@ -38,6 +41,7 @@ public class CatalogCategoryService {
         ).collect(Collectors.toList());
     }
 
+    @Override
     public boolean isParent(String rootCategoryId, String categoryId) {
         if (rootCategoryId == null || rootCategoryId.equalsIgnoreCase(categoryId)) {
             return true;
