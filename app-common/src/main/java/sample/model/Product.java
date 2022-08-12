@@ -9,7 +9,7 @@ public class Product implements Comparable<Product>{
 
     private String id;
 
-    private String caregory;
+    private String category;
 
     private String name;
 
@@ -24,7 +24,7 @@ public class Product implements Comparable<Product>{
         Product res = new Product();
 
         res.setId(id);
-        res.setCaregory(caregory);
+        res.setCategory(caregory);
         res.setName(name);
         res.setPrice(BigDecimal.valueOf(price));
         res.setFields(fields);
@@ -39,12 +39,12 @@ public class Product implements Comparable<Product>{
         this.id = id;
     }
 
-    public String getCaregory() {
-        return caregory;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCaregory(String caregory) {
-        this.caregory = caregory;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getName() {

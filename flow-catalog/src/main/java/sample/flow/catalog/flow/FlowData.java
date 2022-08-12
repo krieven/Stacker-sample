@@ -3,6 +3,7 @@ package sample.flow.catalog.flow;
 import sample.flow.catalog.states.category.CategoryData;
 import sample.flow.catalog.states.category.contract.CategoryA;
 import sample.flow.catalog.states.product.ProductData;
+import sample.model.Product;
 
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ public class FlowData implements CategoryData, ProductData {
     private CatalogFlowRq flowRequest;
     private CategoryA categoryAnswer;
     private String parentCategoryId;
+    private Product product;
 
     public static FlowData build(CatalogFlowRq flowRequest) {
         FlowData result = new FlowData();
@@ -43,9 +45,8 @@ public class FlowData implements CategoryData, ProductData {
     }
 
     @Override
-    public void setProductParentCategoryId(String parentId) {
-        setCategoryA(null);
-        setParentCategoryId(parentId);
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public CatalogFlowRq getFlowRequest() {
@@ -70,5 +71,9 @@ public class FlowData implements CategoryData, ProductData {
 
     public void setParentCategoryId(String parentCategoryId) {
         this.parentCategoryId = parentCategoryId;
+    }
+
+    public Product getProduct() {
+        return product;
     }
 }

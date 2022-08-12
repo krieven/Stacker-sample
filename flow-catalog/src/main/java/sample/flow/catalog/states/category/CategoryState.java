@@ -10,7 +10,7 @@ import io.github.krieven.stacker.flow.Contract;
 import io.github.krieven.stacker.flow.FlowContext;
 import io.github.krieven.stacker.flow.StateCompletion;
 import io.github.krieven.stacker.flow.StateQuestion;
-import sample.services.CatalogCategoryServiceInterface;
+import sample.services.CatalogCategoryService;
 
 import java.util.List;
 import java.util.Map;
@@ -19,11 +19,11 @@ import java.util.function.BiFunction;
 
 
 public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryData, CategoryState.Exits> {
-    private final CatalogCategoryServiceInterface catalogCategoryService;
+    private final CatalogCategoryService catalogCategoryService;
 
     private final Map<
-            CategoryA.Action,
-            BiFunction<CategoryA, FlowContext<? extends CategoryData>, StateCompletion>
+                CategoryA.Action,
+                BiFunction<CategoryA, FlowContext<? extends CategoryData>, StateCompletion>
             > actionHandlers = ImmutableMap.of(
 
             CategoryA.Action.OK, this::onOkAction,
@@ -33,7 +33,7 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
             CategoryA.Action.BACK, (q, f) -> exitState(Exits.BACK, f)
     );
 
-    public CategoryState(@NotNull CatalogCategoryServiceInterface catalogCategoryService, BiFunction<CategoryQ, FlowContext<?>, ?> wrapper) {
+    public CategoryState(@NotNull CatalogCategoryService catalogCategoryService, BiFunction<CategoryQ, FlowContext<?>, ?> wrapper) {
         super(
                 new Contract<>(CategoryQ.class, CategoryA.class, new JsonParser()),
                 wrapper,
@@ -46,7 +46,7 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
     protected @NotNull StateCompletion handleAnswer(CategoryA answer, FlowContext<? extends CategoryData> flowContext) {
         answer = answer == null ? flowContext.getFlowData().getCategoryA() : answer;
 
-        if (answer == null || answer.getCategoryId() == null) {
+        if (answer == null) {
             return onEnter(flowContext);
         }
 
@@ -60,27 +60,27 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
         String categoryId = flowContext.getFlowData().categoryGetCategoryId();
         String rootCategoryId = flowContext.getFlowData().categoryGetRootCategoryId();
 
-        //if categoryId is not categoryId or if we trying to go upper than the Flow argument root
+        //if categoryId is not categoryId or if we are trying to go upper than the Flow argument root
         //then exit to back
         if ((categoryId != null && catalogCategoryService.getCategory(categoryId) == null) ||
                 !catalogCategoryService.isParent(rootCategoryId, categoryId)) {
             return exitState(Exits.BACK, flowContext);
         }
         //if chosen category has no children categories then go forward
-        if (catalogCategoryService.getCategories(categoryId).isEmpty()) {
+        if (catalogCategoryService.getChildren(categoryId).isEmpty()) {
             CategoryA answer = new CategoryA();
             answer.setCategoryId(categoryId);
             flowContext.getFlowData().setCategoryA(answer);
 
             return exitState(Exits.FORWARD, flowContext);
         }
-        //otherwise send question
+        //otherwise, send question
         CategoryQ question = new CategoryQ();
 
         question.setTitle("Please select product category");
 
         question.setCategories(
-                catalogCategoryService.getCategories(
+                catalogCategoryService.getChildren(
                         categoryId
                 )
         );
@@ -89,7 +89,9 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
     }
 
     private StateCompletion onOkAction(CategoryA answer, FlowContext<? extends CategoryData> flowContext) {
-
+        if(answer.getCategoryId() == null){
+            return onEnter(flowContext);
+        }
         Category category = catalogCategoryService.getCategory(answer.getCategoryId());
 
         if (category == null) {
@@ -98,7 +100,7 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
 
         flowContext.getFlowData().setCategoryA(answer);
 
-        List<Category> categories = catalogCategoryService.getCategories(category.getId());
+        List<Category> categories = catalogCategoryService.getChildren(category.getId());
 
         if (categories.isEmpty()) {
             return exitState(Exits.FORWARD, flowContext);

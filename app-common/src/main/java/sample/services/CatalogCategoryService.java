@@ -4,12 +4,12 @@ import sample.model.Category;
 
 import java.util.List;
 
-public interface CatalogCategoryServiceInterface {
-    List<Category> getCategories(String parent);
+public interface CatalogCategoryService {
+    List<Category> getChildren(String parent);
 
     Category getCategory(String categoryId);
 
-    List<Category> getAdditionals(String categoryId);
+    List<Category> getAdditional(String categoryId);
 
     boolean isParent(String rootCategoryId, String categoryId);
 }
