@@ -1,16 +1,9 @@
 package sample.flow.catalog.states.category;
 
-import sample.flow.catalog.states.category.contract.CategoryA;
 
+import org.jetbrains.annotations.NotNull;
 
 public interface CategoryData {
-
-    CategoryA getCategoryA();
-
-    void setCategoryA(CategoryA answer);
-
-    String categoryGetRootCategoryId();
-
-    String categoryGetCategoryId();
-
+    @NotNull
+    CategoryStateModel getStateModel(CategoryState state);
 }

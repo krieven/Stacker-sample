@@ -12,10 +12,6 @@ public class ProductQ {
     List<ProductFilter> productFilters;
 
     @JsonProperty(required = true)
-    private
-    List<Product> products;
-
-    @JsonProperty(required = true)
     private List<KeyVal> fieldNames;
 
     public List<ProductFilter> getProductFilters() {
@@ -24,14 +20,6 @@ public class ProductQ {
 
     public void setProductFilters(List<ProductFilter> productFilters) {
         this.productFilters = productFilters;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
     }
 
     public List<KeyVal> getFieldNames() {

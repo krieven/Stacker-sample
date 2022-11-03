@@ -1,9 +1,19 @@
 {
-  "flows": [
-    {
-      "name": "catalog",
-      "address": "http://localhost:4001/"
+  "title": "Stacker Sample Application",
+  "description": "",
+  "nameSpaceMap": {
+    "computers": {
+      "flowConfigMap": {
+        "main": {
+          "address": "http://localhost:4000"
+        },
+        "catalog": {
+          "address": "http://localhost:4001"
+        },
+        "pack": {},
+        "basket": {}
+      }
     }
-  ],
-  "mainFlow": "catalog"
+  },
+  "mainFlow": "computers/main"
 }

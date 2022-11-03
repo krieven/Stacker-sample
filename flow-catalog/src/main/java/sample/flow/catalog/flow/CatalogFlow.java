@@ -66,13 +66,16 @@ public class CatalogFlow extends BaseFlow<CatalogFlowRq, CatalogFlowRs, FlowData
     }
 
     protected CatalogFlowRs makeReturn(FlowContext<FlowData> flowContext) {
-        Product product = flowContext.getFlowData().getProduct();
-
-        if(product==null){
-            return new CatalogFlowRs();
+        if (flowContext.getFlowData().getProductStateModel() == null) {
+            return null;
+        }
+        Product product = flowContext.getFlowData().getProductStateModel().getProduct();
+        if (product == null) {
+            return null;
         }
 
         CatalogFlowRs catalogFlowRs = new CatalogFlowRs();
+
         catalogFlowRs.setId(product.getId());
         catalogFlowRs.setCategory(product.getCategory());
         catalogFlowRs.setName(product.getName());

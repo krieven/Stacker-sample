@@ -5,6 +5,9 @@ import sample.services.CatalogProductServiceStub;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        new FlowServer(new CatalogFlow(new CatalogCategoryServiceStub(), new CatalogProductServiceStub()), 4001).start();
+        new FlowServer(
+                new CatalogFlow(new CatalogCategoryServiceStub(), new CatalogProductServiceStub()),
+                4001
+        ).start();
     }
 }

@@ -7,7 +7,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import sample.flow.catalog.flow.CatalogFlowRq;
 import sample.flow.catalog.flow.FlowData;
+import sample.flow.catalog.states.category.CategoryState;
+import sample.flow.catalog.states.category.CategoryStateModel;
 import sample.flow.catalog.states.category.contract.CategoryA;
+import sample.flow.catalog.states.category.contract.CategoryQ;
+import sample.services.CatalogCategoryServiceStub;
 
 public class TestCategoryState {
     private final IParser parser = new JsonParser();
@@ -39,8 +43,7 @@ public class TestCategoryState {
                         FlowData flowData = TestUtils.extractFlowData(command, FlowData.class);
                         Assert.assertNotNull(flowData);
                         Assert.assertEquals("COMP", flowData.getFlowRequest().getCategoryId());
-                        Assert.assertNull(flowData.getParentCategoryId());
-                        Assert.assertNull(flowData.getCategoryAnswer());
+                        Assert.assertNull(flowData.getProductStateModel());
                     }
 
                     @Override
@@ -76,8 +79,6 @@ public class TestCategoryState {
                         FlowData flowData = TestUtils.extractFlowData(command, FlowData.class);
                         Assert.assertNotNull(flowData);
                         Assert.assertEquals("COMP", flowData.getFlowRequest().getCategoryId());
-                        Assert.assertNull(flowData.getParentCategoryId());
-                        Assert.assertNotNull(flowData.getCategoryAnswer());
                     }
 
                     @Override
@@ -114,8 +115,6 @@ public class TestCategoryState {
                         FlowData flowData = TestUtils.extractFlowData(command, FlowData.class);
                         Assert.assertNotNull(flowData);
                         Assert.assertEquals("COMP", flowData.getFlowRequest().getCategoryId());
-                        Assert.assertNull(flowData.getParentCategoryId());
-                        Assert.assertNotNull(flowData.getCategoryAnswer());
                     }
 
                     @Override
@@ -151,8 +150,6 @@ public class TestCategoryState {
                         FlowData flowData = TestUtils.extractFlowData(command, FlowData.class);
                         Assert.assertNotNull(flowData);
                         Assert.assertEquals("COMP", flowData.getFlowRequest().getCategoryId());
-                        Assert.assertNull(flowData.getParentCategoryId());
-                        Assert.assertNull(flowData.getCategoryAnswer());
                     }
 
                     @Override
@@ -188,8 +185,6 @@ public class TestCategoryState {
                         FlowData flowData = TestUtils.extractFlowData(command, FlowData.class);
                         Assert.assertNotNull(flowData);
                         Assert.assertEquals("DESKTOP", flowData.getFlowRequest().getCategoryId());
-                        Assert.assertNull(flowData.getParentCategoryId());
-                        Assert.assertNotNull(flowData.getCategoryAnswer());
                     }
 
                     @Override
@@ -206,11 +201,12 @@ public class TestCategoryState {
         input.setFlow(TestUtils.FLOW_NAME);
         input.setState("category");
         CatalogFlowRq rq = new CatalogFlowRq();
-        rq.setCategoryId("COMP");
+
         FlowData flowData = FlowData.build(rq);
-        CategoryA savedCategoryA = new CategoryA();
-        savedCategoryA.setCategoryId("DESKTOP");
-        flowData.setCategoryA(savedCategoryA);
+        CategoryStateModel categoryStateModel = new CategoryStateModel();
+        categoryStateModel.setCurrentCategoryId("DESKTOP");
+        flowData.setCategoryStateModel(categoryStateModel);
+
         input.setFlowData(parser.serialize(flowData));
         CategoryA categoryA = new CategoryA();
         categoryA.setAction(CategoryA.Action.UP);
@@ -227,9 +223,10 @@ public class TestCategoryState {
 
                         FlowData flowData = TestUtils.extractFlowData(command, FlowData.class);
                         Assert.assertNotNull(flowData);
-                        Assert.assertEquals("COMP", flowData.getFlowRequest().getCategoryId());
-                        Assert.assertNull(flowData.getParentCategoryId());
-                        Assert.assertNotNull(flowData.getCategoryAnswer());
+                        CategoryQ categoryQ = TestUtils.extractQuestion(command, CategoryQ.class);
+
+                        Assert.assertNotNull(categoryQ);
+                        Assert.assertEquals(2, categoryQ.getCategories().size());
                     }
 
                     @Override
@@ -248,9 +245,9 @@ public class TestCategoryState {
         CatalogFlowRq rq = new CatalogFlowRq();
         rq.setCategoryId("COMP");
         FlowData flowData = FlowData.build(rq);
-        CategoryA savedCategoryA = new CategoryA();
-        savedCategoryA.setCategoryId("DESKTOP");
-        flowData.setCategoryA(savedCategoryA);
+        CategoryStateModel categoryStateModel = new CategoryStateModel();
+        categoryStateModel.setCurrentCategoryId("DESKTOP");
+        flowData.setCategoryStateModel(categoryStateModel);
         input.setFlowData(parser.serialize(flowData));
         CategoryA categoryA = new CategoryA();
         categoryA.setAction(CategoryA.Action.BACK);

@@ -1,8 +1,8 @@
 package sample.flow.catalog.states.product;
 
-import sample.model.Product;
+import org.jetbrains.annotations.NotNull;
 
 public interface ProductData {
-    String takeProductCategoryId();
-    void setProduct(Product product);
+    @NotNull
+    ProductStateModel getStateModel(ProductState productState);
 }

@@ -58,5 +58,6 @@ public class TestUtils {
             return parser.parse(command.getContentBody(), dataClass);
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
-        }    }
+        }
+    }
 }

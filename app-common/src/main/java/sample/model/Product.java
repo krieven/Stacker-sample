@@ -17,9 +17,6 @@ public class Product implements Comparable<Product>{
 
     private Map<String, Field> fields;
 
-    public Product() {
-    }
-
     public static Product build(String id, String caregory, String name, double price, Map<String, Field> fields){
         Product res = new Product();
 

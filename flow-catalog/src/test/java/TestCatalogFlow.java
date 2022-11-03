@@ -3,7 +3,6 @@ import io.github.krieven.stacker.common.dto.Command;
 import org.junit.Assert;
 import org.junit.Test;
 import sample.flow.catalog.flow.CatalogFlowRq;
-import sample.flow.catalog.flow.CatalogFlowRs;
 import sample.flow.catalog.flow.FlowData;
 import sample.flow.catalog.states.category.contract.CategoryQ;
 import sample.flow.catalog.states.product.contract.ProductQ;
@@ -72,10 +71,6 @@ public class TestCatalogFlow {
                         Assert.assertNull(command.getState());
                         Assert.assertEquals(parser.getContentType(), command.getBodyContentType());
 
-                        CatalogFlowRs question = TestUtils.extractReturn(command, CatalogFlowRs.class);
-//                        Assert.assertNull(question);
-
-
                         FlowData flowData = TestUtils.extractFlowData(command, FlowData.class);
                         Assert.assertNull(flowData);
                     }
@@ -114,7 +109,7 @@ public class TestCatalogFlow {
                         FlowData flowData = TestUtils.extractFlowData(command, FlowData.class);
                         Assert.assertNotNull(flowData);
                         Assert.assertEquals("COMP", flowData.getFlowRequest().getCategoryId());
-                        Assert.assertNull(flowData.getParentCategoryId());
+
                     }
 
                     @Override
@@ -144,10 +139,13 @@ public class TestCatalogFlow {
                         ProductQ question = TestUtils.extractQuestion(command, ProductQ.class);
                         Assert.assertNotNull(question);
 
+
                         FlowData flowData = TestUtils.extractFlowData(command, FlowData.class);
                         Assert.assertNotNull(flowData);
                         Assert.assertEquals("DESKTOP", flowData.getFlowRequest().getCategoryId());
-                        Assert.assertNull(flowData.getParentCategoryId());
+                        Assert.assertEquals("DESKTOP", flowData.getProductStateModel().getCategoryId());
+
+
                     }
 
                     @Override
@@ -180,8 +178,12 @@ public class TestCatalogFlow {
                         FlowData flowData = TestUtils.extractFlowData(command, FlowData.class);
                         Assert.assertNotNull(flowData);
                         Assert.assertEquals("COMP", flowData.getFlowRequest().getCategoryId());
-                        Assert.assertNull(flowData.getParentCategoryId());
-                        Assert.assertNull(flowData.getCategoryAnswer());
+
+                        CategoryQ categoryQ = TestUtils.extractQuestion(command, CategoryQ.class);
+
+                        Assert.assertEquals(2, categoryQ.getCategories().size());
+                        Assert.assertEquals("Please select product category", categoryQ.getTitle());
+
                     }
 
                     @Override

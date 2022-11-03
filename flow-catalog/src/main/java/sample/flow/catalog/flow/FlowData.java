@@ -1,79 +1,69 @@
 package sample.flow.catalog.flow;
 
+import org.jetbrains.annotations.NotNull;
 import sample.flow.catalog.states.category.CategoryData;
-import sample.flow.catalog.states.category.contract.CategoryA;
+import sample.flow.catalog.states.category.CategoryState;
+import sample.flow.catalog.states.category.CategoryStateModel;
 import sample.flow.catalog.states.product.ProductData;
-import sample.model.Product;
+import sample.flow.catalog.states.product.ProductState;
+import sample.flow.catalog.states.product.ProductStateModel;
 
 import java.util.Optional;
 
 public class FlowData implements CategoryData, ProductData {
     private CatalogFlowRq flowRequest;
-    private CategoryA categoryAnswer;
-    private String parentCategoryId;
-    private Product product;
+    private CategoryStateModel categoryStatModel;
+    private ProductStateModel productStateModel;
 
-    public static FlowData build(CatalogFlowRq flowRequest) {
+    public static @NotNull FlowData build(CatalogFlowRq flowRequest) {
         FlowData result = new FlowData();
         result.setFlowRequest(flowRequest);
         return result;
     }
 
-    public CategoryA getCategoryA() {
-        return getCategoryAnswer();
-    }
-
-    public void setCategoryA(CategoryA answer) {
-        setParentCategoryId(null);
-        setCategoryAnswer(answer);
-    }
-
-    @Override
-    public String categoryGetRootCategoryId() {
-        return Optional.ofNullable(getFlowRequest()).orElseGet(CatalogFlowRq::new).getCategoryId();
-    }
-
-    @Override
-    public String categoryGetCategoryId() {
-        String id = getCategoryA() == null ? getParentCategoryId() : getCategoryA().getCategoryId();
-        return id == null ? categoryGetRootCategoryId() : id;
-    }
-
-    @Override
-    public String takeProductCategoryId() {
-        return getCategoryAnswer() == null ? null : getCategoryA().getCategoryId();
-    }
-
-    @Override
-    public void setProduct(Product product) {
-        this.product = product;
+    private void setFlowRequest(CatalogFlowRq flowRequest) {
+        this.flowRequest = flowRequest;
     }
 
     public CatalogFlowRq getFlowRequest() {
         return flowRequest;
     }
 
-    public void setFlowRequest(CatalogFlowRq flowRequest) {
-        this.flowRequest = flowRequest;
+    @Override
+    @NotNull
+    public CategoryStateModel getStateModel(CategoryState state) {
+        flowRequest = Optional.ofNullable(flowRequest).orElse(new CatalogFlowRq());
+        if (getCategoryStateModel() == null) {
+            setCategoryStateModel(new CategoryStateModel());
+            getCategoryStateModel().setRootCategoryId(getFlowRequest().getCategoryId());
+            getCategoryStateModel().setCurrentCategoryId(getFlowRequest().getCategoryId());
+        }
+        return getCategoryStateModel();
     }
 
-    public CategoryA getCategoryAnswer() {
-        return categoryAnswer;
+    @Override
+    @NotNull
+    public ProductStateModel getStateModel(ProductState productState) {
+        if (getProductStateModel() == null) {
+            setProductStateModel(new ProductStateModel());
+            getProductStateModel().setCategoryId(getCategoryStateModel() == null ? null : getCategoryStateModel().getCurrentCategoryId());
+        }
+        return getProductStateModel();
     }
 
-    public void setCategoryAnswer(CategoryA categoryAnswer) {
-        this.categoryAnswer = categoryAnswer;
+    public CategoryStateModel getCategoryStateModel() {
+        return categoryStatModel;
     }
 
-    public String getParentCategoryId() {
-        return parentCategoryId;
+    public void setCategoryStateModel(CategoryStateModel categoryStatModel) {
+        this.categoryStatModel = categoryStatModel;
     }
 
-    public void setParentCategoryId(String parentCategoryId) {
-        this.parentCategoryId = parentCategoryId;
+    public ProductStateModel getProductStateModel() {
+        return productStateModel;
     }
 
-    public Product getProduct() {
-        return product;
+    public void setProductStateModel(ProductStateModel productStateModel) {
+        this.productStateModel = productStateModel;
     }
 }

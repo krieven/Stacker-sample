@@ -44,8 +44,6 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
     }
 
     protected @NotNull StateCompletion handleAnswer(CategoryA answer, FlowContext<? extends CategoryData> flowContext) {
-        answer = answer == null ? flowContext.getFlowData().getCategoryA() : answer;
-
         if (answer == null) {
             return onEnter(flowContext);
         }
@@ -57,8 +55,10 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
 
     public @NotNull StateCompletion onEnter(FlowContext<? extends CategoryData> flowContext) {
 
-        String categoryId = flowContext.getFlowData().categoryGetCategoryId();
-        String rootCategoryId = flowContext.getFlowData().categoryGetRootCategoryId();
+        CategoryStateModel categoryStateModel = flowContext.getFlowData().getStateModel(this);
+
+        String categoryId = categoryStateModel.getCurrentCategoryId();
+        String rootCategoryId = categoryStateModel.getRootCategoryId();
 
         //if categoryId is not categoryId or if we are trying to go upper than the Flow argument root
         //then exit to back
@@ -70,7 +70,7 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
         if (catalogCategoryService.getChildren(categoryId).isEmpty()) {
             CategoryA answer = new CategoryA();
             answer.setCategoryId(categoryId);
-            flowContext.getFlowData().setCategoryA(answer);
+            categoryStateModel.setCurrentCategoryId(answer.getCategoryId());
 
             return exitState(Exits.FORWARD, flowContext);
         }
@@ -98,7 +98,7 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
             return onEnter(flowContext);
         }
 
-        flowContext.getFlowData().setCategoryA(answer);
+        flowContext.getFlowData().getStateModel(this).setCurrentCategoryId(answer.getCategoryId());
 
         List<Category> categories = catalogCategoryService.getChildren(category.getId());
 
@@ -115,10 +115,9 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
     }
 
     private StateCompletion onUpAction(CategoryA answer, FlowContext<? extends CategoryData> flowContext) {
-        String id = flowContext.getFlowData().getCategoryA() == null ? null :
-                flowContext.getFlowData().getCategoryA().getCategoryId();
-
-        id = id == null ? flowContext.getFlowData().categoryGetRootCategoryId() : id;
+        CategoryStateModel model = flowContext.getFlowData().getStateModel(this);
+        String id = model.getCurrentCategoryId();
+        id = id == null ? model.getRootCategoryId() : id;
 
         Category current = catalogCategoryService.getCategory(id);
         String parent = current == null ? null : current.getParent();
