@@ -13,5 +13,4 @@ public class WrapQuestion<Q> implements BiFunction<Q, FlowContext<?>, ContractWr
         result.setState(flowContext.getStateName());
         return result;
     }
-
 }

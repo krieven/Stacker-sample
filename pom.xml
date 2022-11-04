@@ -19,9 +19,8 @@
     </properties>
 
     <modules>
-        <module>flow-main</module>
-        <module>flow-search</module>
-        <module>router</module>
+        <module>flow-catalog</module>
+        <module>stacker-sample-router</module>
         <module>app-common</module>
         <module>client</module>
     </modules>

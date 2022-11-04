@@ -9,7 +9,7 @@ public class Product implements Comparable<Product>{
 
     private String id;
 
-    private String caregory;
+    private String category;
 
     private String name;
 
@@ -17,12 +17,15 @@ public class Product implements Comparable<Product>{
 
     private Map<String, Field> fields;
 
-    public Product(String id, String caregory, String name, double price, Map<String, Field> fields){
-        this.setId(id);
-        this.setCaregory(caregory);
-        this.setName(name);
-        this.setPrice(BigDecimal.valueOf(price));
-        this.setFields(fields);
+    public static Product build(String id, String caregory, String name, double price, Map<String, Field> fields){
+        Product res = new Product();
+
+        res.setId(id);
+        res.setCategory(caregory);
+        res.setName(name);
+        res.setPrice(BigDecimal.valueOf(price));
+        res.setFields(fields);
+        return res;
     }
 
     public String getId() {
@@ -33,12 +36,12 @@ public class Product implements Comparable<Product>{
         this.id = id;
     }
 
-    public String getCaregory() {
-        return caregory;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCaregory(String caregory) {
-        this.caregory = caregory;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getName() {

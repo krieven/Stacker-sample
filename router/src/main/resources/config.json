@@ -1,9 +1,0 @@
-{
-  "flows": [
-    {
-      "name": "catalog",
-      "address": "http://localhost:4001/"
-    }
-  ],
-  "mainFlow": "catalog"
-}
