@@ -46,7 +46,7 @@ public class ProductState extends StateQuestion<ProductQ, ProductA, ProductData,
     }
 
     @Override
-    public @NotNull StateCompletion onEnter(FlowContext<? extends ProductData> flowContext) {
+    protected @NotNull StateCompletion onEnter(FlowContext<? extends ProductData> flowContext) {
         String categoryId = flowContext.getFlowData().getStateModel(this).getCategoryId();
         if (categoryId == null) {
             return exitState(Exits.BACK, flowContext);

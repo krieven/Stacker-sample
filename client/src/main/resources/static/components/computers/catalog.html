@@ -1,0 +1,35 @@
+
+<main as="category-screen">
+    <h2 ref="title">Category</h2>
+    <array-iterator ref="categories" useTag="ul">
+        <category-li></category-li>
+    </array-iterator>
+    <script>
+        this.onSetData = (data) => {
+            this.ref.title.innerText=data.title;
+            this.ref.categories.setData(data.categories);
+        }
+    </script>
+</main>
+
+<li as="category-li">
+    <button ref="button" style="width:400px"></button>
+    <script>
+        this.onSetData = (data) => {
+            this.ref.button.innerText = data.title;
+            this.ref.button.onclick = () => {
+                appContext.sendAnswer(
+                    {
+                        categoryId: data.id,
+                        action: 'OK'
+                    }
+                );
+            }
+        }
+
+    </script>
+</li>
+
+<main as="product-screen">
+    <h2>Product</h2>
+</main>

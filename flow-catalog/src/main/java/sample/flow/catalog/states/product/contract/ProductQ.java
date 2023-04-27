@@ -8,8 +8,7 @@ import java.util.List;
 
 public class ProductQ {
     @JsonProperty(required = true)
-    private
-    List<ProductFilter> productFilters;
+    private List<ProductFilter> productFilters;
 
     @JsonProperty(required = true)
     private List<KeyVal> fieldNames;

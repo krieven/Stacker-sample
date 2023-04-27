@@ -28,3 +28,5 @@ node-modules/*
 .idea/
 
 ui-contract/*
+/client/src/main/resources/static/node_modules/
+/client/src/main/resources/static/package-lock.json

@@ -8,6 +8,9 @@ import io.github.krieven.stacker.flow.StateCompletion;
 import io.github.krieven.stacker.flow.StateTerminator;
 import org.jetbrains.annotations.NotNull;
 import sample.contract.WrapQuestion;
+import sample.flow.catalog.contract.CatalogFlowRq;
+import sample.flow.catalog.contract.CatalogFlowRs;
+import sample.flow.catalog.states.identification.IdentState;
 import sample.flow.catalog.states.product.ProductState;
 import sample.flow.catalog.states.category.CategoryState;
 import io.github.krieven.stacker.common.JsonParser;
@@ -55,6 +58,7 @@ public class CatalogFlow extends BaseFlow<CatalogFlowRq, CatalogFlowRs, FlowData
                         .withExit(ProductState.Exits.OK, END)
                         .withExit(ProductState.Exits.GET_DISCOUNT, IDENTIFICATION)
         );
+        addState(IDENTIFICATION, new IdentState().withExit(IdentState.Exits.RETURN, PRODUCT));
     }
 
     protected boolean isDaemon(FlowContext<FlowData> flowContext) {

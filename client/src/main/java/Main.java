@@ -19,10 +19,8 @@ public class Main {
         Resource resource = Resource.newResource(Main.class.getResource("/static"));
         resourceHandler.setBaseResource(resource);
 
-
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[] {
-                newHandler("/api", "http://localhost:7000/"),
                 resourceHandler
         });
 
@@ -34,17 +32,4 @@ public class Main {
         server.join();
     }
 
-    public static Handler newHandler(String contextPath, String targetUri){
-
-        ServletHolder servletHolder = new ServletHolder(AsyncProxyServlet.Transparent.class);
-        servletHolder.setAsyncSupported(true);
-        servletHolder.setInitParameter("proxyTo", targetUri);
-        servletHolder.setInitParameter("prefix", contextPath+"");
-
-        ServletContextHandler contextHandler = new ServletContextHandler();
-        contextHandler.setContextPath(contextPath+"/*");
-        contextHandler.addServlet(servletHolder, "/*");
-
-        return contextHandler;
-    }
 }

@@ -1,4 +1,4 @@
-package sample.flow.catalog.flow;
+package sample.flow.catalog.contract;
 
 import java.math.BigDecimal;
 import java.util.Map;

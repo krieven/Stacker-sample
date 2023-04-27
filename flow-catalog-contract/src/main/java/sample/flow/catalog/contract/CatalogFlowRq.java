@@ -1,4 +1,4 @@
-package sample.flow.catalog.flow;
+package sample.flow.catalog.contract;
 
 public class CatalogFlowRq {
     private String categoryId;

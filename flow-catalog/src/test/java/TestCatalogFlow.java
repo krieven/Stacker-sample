@@ -2,7 +2,8 @@ import io.github.krieven.stacker.common.*;
 import io.github.krieven.stacker.common.dto.Command;
 import org.junit.Assert;
 import org.junit.Test;
-import sample.flow.catalog.flow.CatalogFlowRq;
+
+import sample.flow.catalog.contract.CatalogFlowRq;
 import sample.flow.catalog.flow.FlowData;
 import sample.flow.catalog.states.category.contract.CategoryQ;
 import sample.flow.catalog.states.product.contract.ProductQ;

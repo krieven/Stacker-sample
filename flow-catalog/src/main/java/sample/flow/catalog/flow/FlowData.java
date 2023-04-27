@@ -1,19 +1,24 @@
 package sample.flow.catalog.flow;
 
 import org.jetbrains.annotations.NotNull;
+import sample.flow.catalog.contract.CatalogFlowRq;
 import sample.flow.catalog.states.category.CategoryData;
 import sample.flow.catalog.states.category.CategoryState;
 import sample.flow.catalog.states.category.CategoryStateModel;
+import sample.flow.catalog.states.identification.IdentData;
+import sample.flow.catalog.states.identification.IdentState;
+import sample.flow.catalog.states.identification.IdentStateModel;
 import sample.flow.catalog.states.product.ProductData;
 import sample.flow.catalog.states.product.ProductState;
 import sample.flow.catalog.states.product.ProductStateModel;
 
 import java.util.Optional;
 
-public class FlowData implements CategoryData, ProductData {
+public class FlowData implements CategoryData, ProductData, IdentData {
     private CatalogFlowRq flowRequest;
     private CategoryStateModel categoryStatModel;
     private ProductStateModel productStateModel;
+    private IdentStateModel identStateModel;
 
     public static @NotNull FlowData build(CatalogFlowRq flowRequest) {
         FlowData result = new FlowData();
@@ -51,6 +56,12 @@ public class FlowData implements CategoryData, ProductData {
         return getProductStateModel();
     }
 
+    @Override
+    public IdentStateModel getStateModel(IdentState state) {
+        return Optional.ofNullable(this.identStateModel)
+                .orElse(this.identStateModel = new IdentStateModel());
+    }
+
     public CategoryStateModel getCategoryStateModel() {
         return categoryStatModel;
     }
@@ -65,5 +76,14 @@ public class FlowData implements CategoryData, ProductData {
 
     public void setProductStateModel(ProductStateModel productStateModel) {
         this.productStateModel = productStateModel;
+    }
+
+
+    public IdentStateModel getIdentStateModel() {
+        return identStateModel;
+    }
+
+    public void setIdentStateModel(IdentStateModel identStateModel) {
+        this.identStateModel = identStateModel;
     }
 }

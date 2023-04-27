@@ -53,14 +53,14 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
                 .apply(answer, flowContext);
     }
 
-    public @NotNull StateCompletion onEnter(FlowContext<? extends CategoryData> flowContext) {
+    protected @NotNull StateCompletion onEnter(FlowContext<? extends CategoryData> flowContext) {
 
         CategoryStateModel categoryStateModel = flowContext.getFlowData().getStateModel(this);
 
         String categoryId = categoryStateModel.getCurrentCategoryId();
         String rootCategoryId = categoryStateModel.getRootCategoryId();
 
-        //if categoryId is not categoryId or if we are trying to go upper than the Flow argument root
+        //if categoryId is not categoryId or if we are trying to go up over the Flow argument root
         //then exit to back
         if ((categoryId != null && catalogCategoryService.getCategory(categoryId) == null) ||
                 !catalogCategoryService.isParent(rootCategoryId, categoryId)) {

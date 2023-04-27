@@ -5,13 +5,12 @@ import io.github.krieven.stacker.common.SerializingException;
 import io.github.krieven.stacker.common.dto.Command;
 import org.junit.Assert;
 import org.junit.Test;
-import sample.flow.catalog.flow.CatalogFlowRq;
+
+import sample.flow.catalog.contract.CatalogFlowRq;
 import sample.flow.catalog.flow.FlowData;
-import sample.flow.catalog.states.category.CategoryState;
 import sample.flow.catalog.states.category.CategoryStateModel;
 import sample.flow.catalog.states.category.contract.CategoryA;
 import sample.flow.catalog.states.category.contract.CategoryQ;
-import sample.services.CatalogCategoryServiceStub;
 
 public class TestCategoryState {
     private final IParser parser = new JsonParser();

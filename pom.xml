@@ -21,8 +21,12 @@
     <modules>
         <module>flow-catalog</module>
         <module>stacker-sample-router</module>
-        <module>app-common</module>
+        <module>sample-common</module>
         <module>client</module>
+        <module>flow-basket</module>
+        <module>flow-catalog-contract</module>
+        <module>flow-pack</module>
+        <module>flow-pack-contract</module>
     </modules>
 
     <build>
