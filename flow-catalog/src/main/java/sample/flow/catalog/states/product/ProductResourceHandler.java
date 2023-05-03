@@ -6,14 +6,13 @@ import io.github.krieven.stacker.common.SerializingException;
 import io.github.krieven.stacker.flow.FlowContext;
 import io.github.krieven.stacker.flow.ResourceController;
 import io.github.krieven.stacker.flow.StateCompletion;
-import io.github.krieven.stacker.util.Triable;
+import io.github.krieven.stacker.util.Probe;
 import org.jetbrains.annotations.NotNull;
 import sample.model.Product;
 import sample.services.CatalogProductService;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class ProductResourceHandler extends ResourceController<ProductData> {
     private final ProductState productState;
@@ -27,8 +26,8 @@ public class ProductResourceHandler extends ResourceController<ProductData> {
 
     @Override
     protected @NotNull StateCompletion handle(List<String> pathInfo, Map<String, String[]> params, FlowContext<? extends ProductData> flowContext) {
-        int pageSize = Triable.tryGet(() -> Integer.parseInt(pathInfo.get(0),10)).orElse(20);
-        int pageNumber = Triable.tryGet(() -> Integer.parseInt(pathInfo.get(1), 10)).orElse(0);
+        int pageSize = Probe.tryGet(() -> Integer.parseInt(pathInfo.get(0),10)).orElse(20);
+        int pageNumber = Probe.tryGet(() -> Integer.parseInt(pathInfo.get(1), 10)).orElse(0);
 
         ProductStateModel stateModel = flowContext.getFlowData().getStateModel(productState);
         List<Product> products = catalogProductService.getByCategory(stateModel.getCategoryId());

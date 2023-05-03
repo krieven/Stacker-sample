@@ -1,5 +1,6 @@
 
 <main as="category-screen">
+    <button ref="btnBack">&lt;</button>
     <h2 ref="title">Category</h2>
     <array-iterator ref="categories" useTag="ul">
         <category-li></category-li>
@@ -8,6 +9,13 @@
         this.onSetData = (data) => {
             this.ref.title.innerText=data.title;
             this.ref.categories.setData(data.categories);
+            this.ref.btnBack.onclick=()=>{
+                appContext.sendAnswer(
+                    {
+                        action: 'BACK'
+                    }
+                );
+            };
         }
     </script>
 </main>
