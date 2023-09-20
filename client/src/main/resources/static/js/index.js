@@ -1,25 +1,25 @@
-(function(){
+(function () {
 
-    function loadScreen(flow, state, data, appContext){
-            if(loadScreen.loaded[flow]){
-                loadScreen.onLoad(loadScreen.loaded[flow], state, data);
-                return;
-            }
-            moduleLoader(appContext,
-                'components/' + flow + ".html",
-                reader,
-                (factory) => {
-                    loadScreen.loaded[flow] = factory;
-                    loadScreen.onLoad(factory, state, data);
-                });
+    function loadScreen(flow, state, data, appContext) {
+        if (loadScreen.loaded[flow]) {
+            loadScreen.onLoad(loadScreen.loaded[flow], state, data);
+            return;
+        }
+        moduleLoader(appContext,
+            'components/' + flow + ".html",
+            reader,
+            (factory) => {
+                loadScreen.loaded[flow] = factory;
+                loadScreen.onLoad(factory, state, data);
+            });
     }
     let currentScreen;
     loadScreen.loaded = {};
     loadScreen.onLoad = (factory, state, data) => {
         currentScreen && (currentScreen.stop() || currentScreen.destroy());
-        const screen = factory.create(state+'-screen');
-        if(!screen.mount) {
-            console.log('screen '+state+ ' is not loaded');
+        const screen = factory.create(state + '-screen');
+        if (!screen.mount) {
+            console.log('screen ' + state + ' is not loaded');
             return;
         }
         currentScreen = screen;
@@ -31,14 +31,14 @@
         sendAnswer
     }
 
-    function sendAnswer(answer){
-        fetch('/api/', {method:'POST', body: JSON.stringify(answer)})
-        .then(resp => resp.json())
-        .then(
-            question => {
-                loadScreen(question.flow, question.state, question.data, appContext);
-            }
-        );
+    function sendAnswer(answer) {
+        fetch('/api/', { method: 'POST', body: JSON.stringify(answer) })
+            .then(resp => resp.json())
+            .then(
+                question => {
+                    loadScreen(question.flow, question.state, question.data, appContext);
+                }
+            );
     }
 
     sendAnswer();

@@ -1,20 +1,20 @@
 import io.github.krieven.stacker.common.IParser;
 import io.github.krieven.stacker.common.JsonParser;
 import io.github.krieven.stacker.common.dto.Command;
-import io.github.krieven.stacker.flow.FlowHandler;
+import io.github.krieven.stacker.flow.FlowHolder;
 import org.junit.Assert;
-import sample.contract.ContractWrapper;
-import sample.flow.catalog.contract.CatalogFlowRs;
-import sample.flow.catalog.flow.CatalogFlow;
-import sample.flow.catalog.states.category.contract.CategoryQ;
-import sample.services.CatalogCategoryServiceStub;
-import sample.services.CatalogProductServiceStub;
+import io.github.krieven.stacker.sample.contract.ContractWrapper;
+import io.github.krieven.stacker.sample.flow.catalog.contract.CatalogFlowRs;
+import io.github.krieven.stacker.sample.flow.catalog.flow.CatalogFlow;
+import io.github.krieven.stacker.sample.flow.catalog.states.category.contract.CategoryQ;
+import io.github.krieven.stacker.sample.services.CatalogCategoryServiceStub;
+import io.github.krieven.stacker.sample.services.CatalogProductServiceStub;
 
 public class TestUtils {
     public static final String FLOW_NAME = "search";
 
     public static final IParser parser = new JsonParser();
-    public static final FlowHandler flow = FlowHandler.create(new CatalogFlow(new CatalogCategoryServiceStub(), new CatalogProductServiceStub()));
+    public static final FlowHolder flow = FlowHolder.create(new CatalogFlow(new CatalogCategoryServiceStub(), new CatalogProductServiceStub()));
 
 
     public static  <T> T extractQuestion(Command command, Class<T> dataClass) {

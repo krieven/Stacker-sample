@@ -20,16 +20,26 @@
         </dependency>
         <dependency>
             <groupId>io.github.krieven.stacker</groupId>
+            <artifactId>stacker-util</artifactId>
+            <version>${stacker.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.krieven.stacker</groupId>
             <artifactId>flow-pack-contract</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.github.krieven.stacker</groupId>
             <artifactId>sample-common</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>io.github.krieven.stacker</groupId>
+            <artifactId>flow-basket-contract</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

@@ -3,10 +3,10 @@ import io.github.krieven.stacker.common.dto.Command;
 import org.junit.Assert;
 import org.junit.Test;
 
-import sample.flow.catalog.contract.CatalogFlowRq;
-import sample.flow.catalog.flow.FlowData;
-import sample.flow.catalog.states.category.contract.CategoryQ;
-import sample.flow.catalog.states.product.contract.ProductQ;
+import io.github.krieven.stacker.sample.flow.catalog.contract.CatalogFlowRq;
+import io.github.krieven.stacker.sample.flow.catalog.flow.FlowData;
+import io.github.krieven.stacker.sample.flow.catalog.states.category.contract.CategoryQ;
+import io.github.krieven.stacker.sample.flow.catalog.states.product.contract.ProductQ;
 
 public class TestCatalogFlow {
     private final IParser parser = new JsonParser();
@@ -21,14 +21,14 @@ public class TestCatalogFlow {
 
         TestUtils.flow.handleCommand(
                 input,
-                new ICallback<Command>() {
+                new ICallback<>() {
                     @Override
                     public void success(Command command) {
                         Assert.assertNotNull(command);
 
                         Assert.assertEquals(Command.Type.QUESTION, command.getType());
                         Assert.assertEquals(TestUtils.FLOW_NAME, command.getFlow());
-                        Assert.assertEquals("category", command.getState());
+                        Assert.assertEquals("CATEGORY", command.getState());
                         Assert.assertEquals(parser.getContentType(), command.getBodyContentType());
 
                         CategoryQ question = TestUtils.extractQuestion(command, CategoryQ.class);
@@ -62,7 +62,7 @@ public class TestCatalogFlow {
 
         TestUtils.flow.handleCommand(
                 input,
-                new ICallback<Command>() {
+                new ICallback<>() {
                     @Override
                     public void success(Command command) {
                         Assert.assertNotNull(command);
@@ -97,7 +97,7 @@ public class TestCatalogFlow {
 
         TestUtils.flow.handleCommand(
                 input,
-                new ICallback<Command>() {
+                new ICallback<>() {
                     @Override
                     public void success(Command command) {
                         Assert.assertNotNull(command);
@@ -132,7 +132,7 @@ public class TestCatalogFlow {
 
         TestUtils.flow.handleCommand(
                 input,
-                new ICallback<Command>() {
+                new ICallback<>() {
                     @Override
                     public void success(Command command) {
                         TestUtils.assertCommandIsOk(command, TestUtils.FLOW_NAME,"PRODUCT");
@@ -169,7 +169,7 @@ public class TestCatalogFlow {
 
         TestUtils.flow.handleCommand(
                 input,
-                new ICallback<Command>() {
+                new ICallback<>() {
                     @Override
                     public void success(Command command) {
                         TestUtils.assertCommandIsOk(command,  TestUtils.FLOW_NAME,"category");

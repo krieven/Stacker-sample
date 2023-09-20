@@ -1,26 +1,30 @@
-
 <main as="category-screen">
     <button ref="btnBack">&lt;</button>
+    <button ref="btnUp">&lt;</button>
+
     <h2 ref="title">Category</h2>
-    <array-iterator ref="categories" useTag="ul">
+
+    <array-iterator ref="categories" useTag="div">
         <category-li></category-li>
     </array-iterator>
+
+
     <script>
+
         this.onSetData = (data) => {
-            this.ref.title.innerText=data.title;
+            this.ref.title.innerText = data.title;
             this.ref.categories.setData(data.categories);
-            this.ref.btnBack.onclick=()=>{
-                appContext.sendAnswer(
-                    {
-                        action: 'BACK'
-                    }
-                );
-            };
         }
+
+        this.ref.btnBack.onclick = () => appContext.sendAnswer({ action: 'BACK' });
+
+
+        this.ref.btnUp.onclick = () => appContext.sendAnswer({ action: 'UP' });
+
     </script>
 </main>
 
-<li as="category-li">
+<div as="category-li">
     <button ref="button" style="width:400px"></button>
     <script>
         this.onSetData = (data) => {
@@ -35,9 +39,21 @@
             }
         }
 
+
+
     </script>
-</li>
+</div>
 
 <main as="product-screen">
+    <button ref="back">&lt;</button>
     <h2>Product</h2>
+    <script>
+        this.ref.back.onclick = () => {
+            appContext.sendAnswer(
+                {
+                    action: 'BACK'
+                }
+            );
+        }
+    </script>
 </main>
