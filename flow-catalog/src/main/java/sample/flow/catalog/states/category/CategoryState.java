@@ -1,8 +1,7 @@
 package sample.flow.catalog.states.category;
 
 import com.google.common.collect.ImmutableMap;
-import org.jetbrains.annotations.NotNull;
-import sample.model.Category;
+import javax.validation.constraints.NotNull;import sample.model.Category;
 import sample.flow.catalog.states.category.contract.CategoryA;
 import sample.flow.catalog.states.category.contract.CategoryQ;
 import io.github.krieven.stacker.common.JsonParser;

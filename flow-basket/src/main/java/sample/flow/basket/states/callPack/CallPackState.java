@@ -5,9 +5,10 @@ import io.github.krieven.stacker.flow.Contract;
 import io.github.krieven.stacker.flow.FlowContext;
 import io.github.krieven.stacker.flow.StateCompletion;
 import io.github.krieven.stacker.flow.StateOuterCall;
-import org.jetbrains.annotations.NotNull;
 import sample.flow.pack.contract.FlowPackRq;
 import sample.flow.pack.contract.FlowPackRs;
+
+import javax.validation.constraints.NotNull;
 
 public class CallPackState extends StateOuterCall<FlowPackRq, FlowPackRs, CallPackStateData, CallPackState.Exits> {
 
@@ -18,7 +19,8 @@ public class CallPackState extends StateOuterCall<FlowPackRq, FlowPackRs, CallPa
 
     @Override
     protected @NotNull StateCompletion handleAnswer(FlowPackRs flowPackRs, FlowContext<? extends CallPackStateData> flowContext) {
-        return null;
+
+        return exitState(Exits.OK, flowContext);
     }
 
     @Override

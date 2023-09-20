@@ -7,8 +7,7 @@ import io.github.krieven.stacker.flow.FlowContext;
 import io.github.krieven.stacker.flow.ResourceController;
 import io.github.krieven.stacker.flow.StateCompletion;
 import io.github.krieven.stacker.util.Probe;
-import org.jetbrains.annotations.NotNull;
-import sample.model.Product;
+import javax.validation.constraints.NotNull;import sample.model.Product;
 import sample.services.CatalogProductService;
 
 import java.util.List;

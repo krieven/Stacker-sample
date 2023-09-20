@@ -1,7 +1,7 @@
 package sample.flow.pack.flow;
 
 import sample.flow.pack.contract.FlowPackRq;
-import sample.flow.pack.states.callCatalog.CallCataloqState;
+import sample.flow.pack.states.callCatalog.CallCatalogState;
 import sample.flow.pack.states.callCatalog.CallCataloqStateData;
 import sample.flow.pack.states.callCatalog.CallCatalogStateModel;
 import sample.flow.pack.states.editPack.EditPackStateData;
@@ -20,7 +20,7 @@ public class FlowPackData implements CallCataloqStateData, EditPackStateData {
     }
 
     @Override
-    public CallCatalogStateModel getStateModel(CallCataloqState o) {
+    public CallCatalogStateModel getStateModel(CallCatalogState o) {
         if(getCallCatalogStateModel() == null){
             setCallCatalogStateModel(new CallCatalogStateModel());
             getCallCatalogStateModel().setCategoryId(getFlowPackRq().getCategoryId());

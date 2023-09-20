@@ -1,7 +1,6 @@
 package sample.services;
 
-import org.jetbrains.annotations.NotNull;
-import sample.model.Product;
+import javax.validation.constraints.NotNull;import sample.model.Product;
 import sample.model.KeyVal;
 
 import java.util.List;

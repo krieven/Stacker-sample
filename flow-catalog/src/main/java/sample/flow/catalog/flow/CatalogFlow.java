@@ -2,12 +2,10 @@ package sample.flow.catalog.flow;
 
 
 import io.github.krieven.stacker.flow.BaseFlow;
-import io.github.krieven.stacker.flow.Contract;
 import io.github.krieven.stacker.flow.FlowContext;
-import io.github.krieven.stacker.flow.StateCompletion;
-import io.github.krieven.stacker.flow.StateTerminator;
-import org.jetbrains.annotations.NotNull;
+import io.github.krieven.stacker.util.Probe;
 import sample.contract.WrapQuestion;
+import sample.flow.catalog.contract.CatalogFlowContract;
 import sample.flow.catalog.contract.CatalogFlowRq;
 import sample.flow.catalog.contract.CatalogFlowRs;
 import sample.flow.catalog.states.identification.IdentState;
@@ -26,16 +24,13 @@ public class CatalogFlow extends BaseFlow<CatalogFlowRq, CatalogFlowRs, FlowData
 
     private static final String CATEGORY = "category";
     private static final String PRODUCT = "product";
-    private static final String END = "end";
     private static final String IDENTIFICATION = "identification";
     private final CatalogCategoryService catalogCategoryService;
     private final CatalogProductService catalogProductService;
 
     public CatalogFlow(CatalogCategoryService catalogCategoryService, CatalogProductService catalogProductService) {
         super(
-                new Contract<>(
-                        CatalogFlowRq.class, CatalogFlowRs.class, new JsonParser()
-                ),
+                new CatalogFlowContract(),
                 FlowData.class,
                 new JsonParser()
         );
@@ -44,21 +39,23 @@ public class CatalogFlow extends BaseFlow<CatalogFlowRq, CatalogFlowRs, FlowData
     }
 
     protected void configure() {
-        addState(END, new StateTerminator<>());
         addState(
                 CATEGORY,
                 new CategoryState(catalogCategoryService, new WrapQuestion<>())
-                        .withExit(CategoryState.Exits.BACK, END)
                         .withExit(CategoryState.Exits.FORWARD, PRODUCT)
+                        .withTerminator(CategoryState.Exits.BACK)
         );
         addState(
                 PRODUCT,
                 new ProductState(catalogProductService, new WrapQuestion<>())
                         .withExit(ProductState.Exits.BACK, CATEGORY)
-                        .withExit(ProductState.Exits.OK, END)
                         .withExit(ProductState.Exits.GET_DISCOUNT, IDENTIFICATION)
+                        .withTerminator(ProductState.Exits.OK)
         );
-        addState(IDENTIFICATION, new IdentState().withExit(IdentState.Exits.RETURN, PRODUCT));
+        addState(IDENTIFICATION, new IdentState()
+                .withExit(IdentState.Exits.RETURN, PRODUCT));
+
+        setEnterState(CATEGORY);
     }
 
     protected boolean isDaemon(FlowContext<FlowData> flowContext) {
@@ -70,10 +67,9 @@ public class CatalogFlow extends BaseFlow<CatalogFlowRq, CatalogFlowRs, FlowData
     }
 
     protected CatalogFlowRs makeReturn(FlowContext<FlowData> flowContext) {
-        if (flowContext.getFlowData().getProductStateModel() == null) {
-            return null;
-        }
-        Product product = flowContext.getFlowData().getProductStateModel().getProduct();
+        Product product = Probe.tryGet(() -> flowContext.getFlowData().getProductStateModel().getProduct())
+                .orElse(null);
+
         if (product == null) {
             return null;
         }
@@ -93,9 +89,5 @@ public class CatalogFlow extends BaseFlow<CatalogFlowRq, CatalogFlowRs, FlowData
         });
         catalogFlowRs.setFields(fields);
         return catalogFlowRs;
-    }
-
-    protected @NotNull StateCompletion onStart(FlowContext<FlowData> flowContext) {
-        return enterState(CATEGORY, flowContext);
     }
 }

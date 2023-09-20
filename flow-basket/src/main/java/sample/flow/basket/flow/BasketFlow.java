@@ -2,16 +2,17 @@ package sample.flow.basket.flow;
 
 import io.github.krieven.stacker.common.JsonParser;
 import io.github.krieven.stacker.flow.*;
-import org.jetbrains.annotations.NotNull;
 import sample.flow.basket.states.basket.ShowBasketState;
 import sample.flow.basket.states.callPack.CallPackState;
+import sample.flow.basket.states.enter.EnterState;
+
+import javax.validation.constraints.NotNull;
 
 public class BasketFlow extends BaseFlow<BasketFlowRq, BasketFlowRs, FlowData> {
 
     private static final String PACK = "PACK";
     private static final String BASKET = "BASKET";
-    private static final String EXECUTE = "EXECUTE";
-    private static final String EXIT = "EXIT";
+    private static final String ENTER = "ENTER";
 
     public BasketFlow() {
         super(new Contract<>(BasketFlowRq.class, BasketFlowRs.class, new JsonParser()), FlowData.class, new JsonParser());
@@ -19,13 +20,22 @@ public class BasketFlow extends BaseFlow<BasketFlowRq, BasketFlowRs, FlowData> {
 
     @Override
     protected void configure() {
-        addState(EXIT, new StateTerminator<>());
-        addState(PACK, new CallPackState().withExit(CallPackState.Exits.OK, BASKET));
-        addState(BASKET, new ShowBasketState()
-                .withExit(ShowBasketState.Exits.PACK, PACK)
-//                .withExit(ShowBasketState.Exits.EXECUTE, EXECUTE)
-                .withExit(ShowBasketState.Exits.EXIT, EXIT)
+
+        addState(ENTER, new EnterState()
+                .withExit(EnterState.Exits.ADD, PACK)
+                .withExit(EnterState.Exits.SHOW, BASKET)
         );
+
+        addState(PACK, new CallPackState().withExit(CallPackState.Exits.OK, BASKET));
+
+        addState(BASKET, new ShowBasketState()
+                        .withExit(ShowBasketState.Exits.PACK, PACK)
+//                .withExit(ShowBasketState.Exits.EXECUTE, EXECUTE)
+//                        .withTerminator(ShowBasketState.Exits.EXIT)
+                        .withExit(ShowBasketState.Exits.EDIT, PACK)
+        );
+
+        setEnterState(ENTER);
     }
 
     @Override
@@ -45,7 +55,6 @@ public class BasketFlow extends BaseFlow<BasketFlowRq, BasketFlowRs, FlowData> {
         return null;
     }
 
-    @Override
     protected @NotNull StateCompletion onStart(FlowContext<FlowData> flowContext) {
         return this.enterState(PACK, flowContext);
     }

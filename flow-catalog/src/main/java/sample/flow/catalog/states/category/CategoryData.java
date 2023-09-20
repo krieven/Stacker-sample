@@ -1,8 +1,7 @@
 package sample.flow.catalog.states.category;
 
 
-import org.jetbrains.annotations.NotNull;
-
+import javax.validation.constraints.NotNull;
 public interface CategoryData {
     @NotNull
     CategoryStateModel getStateModel(CategoryState state);

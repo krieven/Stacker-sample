@@ -21,14 +21,14 @@ public class TestCatalogFlow {
 
         TestUtils.flow.handleCommand(
                 input,
-                new ICallback<Command>() {
+                new ICallback<>() {
                     @Override
                     public void success(Command command) {
                         Assert.assertNotNull(command);
 
                         Assert.assertEquals(Command.Type.QUESTION, command.getType());
                         Assert.assertEquals(TestUtils.FLOW_NAME, command.getFlow());
-                        Assert.assertEquals("category", command.getState());
+                        Assert.assertEquals("CATEGORY", command.getState());
                         Assert.assertEquals(parser.getContentType(), command.getBodyContentType());
 
                         CategoryQ question = TestUtils.extractQuestion(command, CategoryQ.class);
@@ -62,7 +62,7 @@ public class TestCatalogFlow {
 
         TestUtils.flow.handleCommand(
                 input,
-                new ICallback<Command>() {
+                new ICallback<>() {
                     @Override
                     public void success(Command command) {
                         Assert.assertNotNull(command);
@@ -97,7 +97,7 @@ public class TestCatalogFlow {
 
         TestUtils.flow.handleCommand(
                 input,
-                new ICallback<Command>() {
+                new ICallback<>() {
                     @Override
                     public void success(Command command) {
                         Assert.assertNotNull(command);
@@ -132,7 +132,7 @@ public class TestCatalogFlow {
 
         TestUtils.flow.handleCommand(
                 input,
-                new ICallback<Command>() {
+                new ICallback<>() {
                     @Override
                     public void success(Command command) {
                         TestUtils.assertCommandIsOk(command, TestUtils.FLOW_NAME,"PRODUCT");
@@ -169,7 +169,7 @@ public class TestCatalogFlow {
 
         TestUtils.flow.handleCommand(
                 input,
-                new ICallback<Command>() {
+                new ICallback<>() {
                     @Override
                     public void success(Command command) {
                         TestUtils.assertCommandIsOk(command,  TestUtils.FLOW_NAME,"category");

@@ -5,8 +5,7 @@ import io.github.krieven.stacker.flow.Contract;
 import io.github.krieven.stacker.flow.FlowContext;
 import io.github.krieven.stacker.flow.StateCompletion;
 import io.github.krieven.stacker.flow.StateOuterCall;
-import org.jetbrains.annotations.NotNull;
-import sample.flow.catalog.states.identification.contract.IdentA;
+import javax.validation.constraints.NotNull;import sample.flow.catalog.states.identification.contract.IdentA;
 import sample.flow.catalog.states.identification.contract.IdentQ;
 
 public class IdentState extends StateOuterCall<IdentQ, IdentA, IdentData, IdentState.Exits> {

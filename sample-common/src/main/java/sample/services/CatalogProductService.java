@@ -1,9 +1,9 @@
 package sample.services;
 
-import org.jetbrains.annotations.NotNull;
 import sample.model.KeyVal;
 import sample.model.Product;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public interface CatalogProductService {

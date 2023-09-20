@@ -1,7 +1,6 @@
 package sample.flow.catalog.states.product;
 
-import org.jetbrains.annotations.NotNull;
-
+import javax.validation.constraints.NotNull;
 public interface ProductData {
     @NotNull
     ProductStateModel getStateModel(ProductState productState);

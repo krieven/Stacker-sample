@@ -6,8 +6,7 @@ import io.github.krieven.stacker.flow.Contract;
 import io.github.krieven.stacker.flow.FlowContext;
 import io.github.krieven.stacker.flow.StateCompletion;
 import io.github.krieven.stacker.flow.StateQuestion;
-import org.jetbrains.annotations.NotNull;
-import sample.services.CatalogProductService;
+import javax.validation.constraints.NotNull;import sample.services.CatalogProductService;
 import sample.flow.catalog.states.product.contract.ProductA;
 import sample.flow.catalog.states.product.contract.ProductQ;
 

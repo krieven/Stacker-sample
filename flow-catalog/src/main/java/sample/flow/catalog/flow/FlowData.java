@@ -1,7 +1,6 @@
 package sample.flow.catalog.flow;
 
-import org.jetbrains.annotations.NotNull;
-import sample.flow.catalog.contract.CatalogFlowRq;
+import javax.validation.constraints.NotNull;import sample.flow.catalog.contract.CatalogFlowRq;
 import sample.flow.catalog.states.category.CategoryData;
 import sample.flow.catalog.states.category.CategoryState;
 import sample.flow.catalog.states.category.CategoryStateModel;

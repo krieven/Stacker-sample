@@ -1,25 +1,31 @@
 package sample.flow.pack.states.callCatalog;
 
-import io.github.krieven.stacker.common.JsonParser;
 import io.github.krieven.stacker.flow.*;
-import org.jetbrains.annotations.NotNull;
+import javax.validation.constraints.NotNull;import sample.flow.catalog.contract.CatalogFlowContract;
 import sample.flow.catalog.contract.CatalogFlowRq;
 import sample.flow.catalog.contract.CatalogFlowRs;
 
-public class CallCataloqState extends StateOuterCall<CatalogFlowRq, CatalogFlowRs, CallCataloqStateData, CallCataloqState.Exits> {
-    public CallCataloqState() {
-        super(new Contract<>(CatalogFlowRq.class, CatalogFlowRs.class, new JsonParser()), Exits.values());
+public class CallCatalogState extends StateOuterCall<CatalogFlowRq, CatalogFlowRs, CallCataloqStateData, CallCatalogState.Exits> {
+    public CallCatalogState() {
+        super(new CatalogFlowContract(), Exits.values());
     }
 
     @Override
     public @NotNull StateCompletion onEnter(FlowContext<? extends CallCataloqStateData> flowContext) {
         CallCatalogStateModel stateModel = flowContext.getFlowData().getStateModel(this);
-        return sendQuestion(new CatalogFlowRq(), flowContext);
+        CatalogFlowRq rq = new CatalogFlowRq();
+        rq.setCategoryId(stateModel.getCategoryId());
+        return sendQuestion(rq, flowContext);
     }
 
     @Override
     protected @NotNull StateCompletion handleAnswer(CatalogFlowRs catalogFlowRs, FlowContext<? extends CallCataloqStateData> flowContext) {
-        return null;
+        if(catalogFlowRs == null){
+            return exitState(Exits.RETURN, flowContext);
+        }
+        CallCatalogStateModel stateModel = flowContext.getFlowData().getStateModel(this);
+        stateModel.setCategoryId(catalogFlowRs.getId());
+        return exitState(Exits.RETURN, flowContext);
     }
 
     @Override
