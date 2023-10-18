@@ -71,6 +71,18 @@ class Stub {
                             FieldKey.FORCE.name(), new Product.Field(Product.Field.Type.NUMBER, "100"),
                             FieldKey.SIZE.name(), new Product.Field(Product.Field.Type.NUMBER, "100")
                     )
+            ),
+            Product.build("2", Cat.DESKTOP.name(), "SuperPower Inc 98760", 1001,
+                    ImmutableMap.of(
+                            FieldKey.FORCE.name(), new Product.Field(Product.Field.Type.NUMBER, "100"),
+                            FieldKey.SIZE.name(), new Product.Field(Product.Field.Type.NUMBER, "100")
+                    )
+            ),
+            Product.build("3", Cat.DESKTOP.name(), "SuperPower Inc 98768", 999,
+                    ImmutableMap.of(
+                            FieldKey.FORCE.name(), new Product.Field(Product.Field.Type.NUMBER, "100"),
+                            FieldKey.SIZE.name(), new Product.Field(Product.Field.Type.NUMBER, "100")
+                    )
             )
     );
 }

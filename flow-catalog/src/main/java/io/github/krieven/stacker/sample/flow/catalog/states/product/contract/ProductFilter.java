@@ -5,12 +5,12 @@ import io.github.krieven.stacker.sample.model.KeyVal;
 import java.util.List;
 
 public class ProductFilter {
-    private String key;
+    private String path;
     private String title;
     private List<KeyVal> presets;
 
-    public ProductFilter(String key, String title, List<KeyVal> presets) {
-        this.key = key;
+    public ProductFilter(String path, String title, List<KeyVal> presets) {
+        this.path = path;
         this.title = title;
         this.presets = presets;
     }
@@ -18,12 +18,12 @@ public class ProductFilter {
     public ProductFilter() {
     }
 
-    public String getKey() {
-        return key;
+    public String getPath() {
+        return path;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public String getTitle() {

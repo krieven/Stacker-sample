@@ -28,7 +28,8 @@
     }
 
     const appContext = {
-        sendAnswer
+        sendAnswer,
+        loadResource
     }
 
     function sendAnswer(answer) {
@@ -39,6 +40,12 @@
                     loadScreen(question.flow, question.state, question.data, appContext);
                 }
             );
+    }
+
+    function loadResource(url, callback) {
+        fetch('/api' + url)
+            .then(resp => resp.json())
+            .then(callback);
     }
 
     sendAnswer();

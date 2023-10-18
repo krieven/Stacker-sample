@@ -46,8 +46,40 @@
 
 <main as="product-screen">
     <button ref="back">&lt;</button>
-    <h2>Product</h2>
+    <h2>Products of category <span ref="category"></span></h2>
+    <div ref="filters"></div>
+    <table style="width:100%; border: 1px solid black;">
+        <thead>
+            <tr tagname="array-iterator" usetag="tr" ref="tableHead">
+                <th tagname="product-th" usetag="th" style="text-align: left; border: 1px solid black;"></th>
+            </tr>
+        </thead>
+        <tbody tagname="array-iterator" usetag="tbody" ref="tableBody">
+            <tr tagneme="product-tr" usetag="tr"></tr>
+        </tbody>
+
+    </table>
     <script>
+        this.onSetData = (data) => {
+            this.ref.category.innerText = data?.categoryName;
+            let heading = ["Product"]
+            data?.fieldNames.forEach(element => {
+                heading.push(element.val);
+            });
+            heading.push("Price")
+
+            this.ref.tableHead.setData(heading);
+
+            let filterUrl = data?.productFilters[0]?.path;
+
+            if (filterUrl) {
+                appContext.loadResource(filterUrl, (res) => {
+                    this.ref.tableBody.setData(res?.products);
+                });
+            } else {
+                this.ref.tableBody.setData([]);
+            }
+        }
         this.ref.back.onclick = () => {
             appContext.sendAnswer(
                 {
@@ -57,3 +89,19 @@
         }
     </script>
 </main>
+
+<div as="product-th" tagname="th">
+    <script>
+        this.onSetData = (data) => this.innerText = data;
+    </script>
+</div>
+
+<array-iterator as="product-tr">
+    <product-td></product-td>
+</array-iterator>
+
+<div as="product-td" tagname="td">
+    <script>
+        this.onSetData = (data) => this.innerText = data;
+    </script>
+</div>

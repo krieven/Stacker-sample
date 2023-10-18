@@ -44,7 +44,7 @@ public class ProductResourceHandler extends ResourceController<ProductData> {
                 pageNumber,
                 pageSize,
                 products.size(),
-                products.subList(pageNumber * pageSize, (pageNumber + 1) * pageSize)
+                products.stream().skip((long) pageNumber * pageSize).limit(pageSize).collect(Collectors.toList())
         );
         try {
             return sendResponse(parser.serialize(response), flowContext);

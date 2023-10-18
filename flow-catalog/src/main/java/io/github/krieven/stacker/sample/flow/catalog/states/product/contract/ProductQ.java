@@ -8,6 +8,7 @@ import java.util.List;
 public class ProductQ {
     @JsonProperty(required = true)
     private List<ProductFilter> productFilters;
+    private String categoryName;
 
     @JsonProperty(required = true)
     private List<KeyVal> fieldNames;
@@ -26,5 +27,13 @@ public class ProductQ {
 
     public void setFieldNames(List<KeyVal> listNames) {
         fieldNames = listNames;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }

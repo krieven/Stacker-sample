@@ -4,7 +4,6 @@ package io.github.krieven.stacker.sample.flow.catalog.flow;
 import io.github.krieven.stacker.flow.BaseFlow;
 import io.github.krieven.stacker.flow.FlowContext;
 import io.github.krieven.stacker.sample.flow.catalog.states.product.ProductState;
-import io.github.krieven.stacker.util.Probe;
 import io.github.krieven.stacker.sample.contract.WrapQuestion;
 import io.github.krieven.stacker.sample.flow.catalog.contract.CatalogFlowContract;
 import io.github.krieven.stacker.sample.flow.catalog.contract.CatalogFlowRq;
@@ -47,7 +46,7 @@ public class CatalogFlow extends BaseFlow<CatalogFlowRq, CatalogFlowRs, FlowData
         );
         addState(
                 PRODUCT,
-                new ProductState(catalogProductService, new WrapQuestion<>())
+                new ProductState(catalogCategoryService, catalogProductService, new WrapQuestion<>())
                         .withExit(ProductState.Exits.BACK, CATEGORY)
                         .withExit(ProductState.Exits.GET_DISCOUNT, IDENTIFICATION)
                         .withTerminator(ProductState.Exits.OK)

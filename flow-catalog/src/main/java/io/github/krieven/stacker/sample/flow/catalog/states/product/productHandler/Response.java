@@ -11,7 +11,12 @@ public class Response {
     private int listSize;
 
     public static Response create(int pageNumber, int pageSize, int listSize, List<Product> products) {
-        return null;
+        Response result = new Response();
+        result.setPage(pageNumber);
+        result.setPageSize(pageSize);
+        result.setListSize(listSize);
+        result.setProducts(products);
+        return result;
     }
 
     public List<Product> getProducts() {
