@@ -1,0 +1,160 @@
+<main as="product-screen">
+    <!--Экран выбора продукта, на входе ProductQ-->
+    <button ref="back">&lt;</button>
+    <h2>Products of category <span ref="category"></span></h2>
+    <div ref="filters"></div>
+    <table style="width:100%; border: 1px solid black;">
+        <thead>
+            <tr tagname="array-iterator" usetag="tr" ref="tableHead">
+                <th tagname="product-th" usetag="th" style="text-align: left; border: 1px solid black;"></th>
+            </tr>
+        </thead>
+
+        <tbody tagname="product-tbody" ref="tableBody"></tbody>
+
+    </table>
+
+    <product-page-selector ref="pageSelector"></product-page-selector>
+
+    <script>
+        this.onSetData = (data) => {
+            this.ref.category.innerText = data?.categoryName;
+
+            let heading = ["Product"]
+            let fieldKeys = [];
+
+            data?.fieldNames.forEach(element => {
+                heading.push(element.val);
+                fieldKeys.push(element.key);
+            });
+
+            heading.push("Price");
+            heading.push("");
+
+            this.ref.tableHead.setData(heading);
+
+            let filterUrl = data?.productFilters[0]?.path;
+
+            if (filterUrl) {
+                let onLoadResource = (res) => {
+
+                    this.ref.tableBody.setData(res?.products, fieldKeys);
+                    this.ref.pageSelector.setData(res, (page) => {
+                        appContext.loadResource(filterUrl + '/' + res.pageSize + '/' + page, onLoadResource)
+                    });
+                }
+
+                appContext.loadResource(filterUrl, onLoadResource);
+            } else {
+                this.ref.tableBody.setData([]);
+            }
+        }
+
+        this.ref.back.onclick = () => {
+            appContext.sendAnswer(
+                {
+                    action: 'BACK'
+                }
+            );
+        }
+    </script>
+</main>
+
+<div as="product-th">
+    <script>
+        this.onSetData = (data) => this.innerText = data;
+    </script>
+</div>
+
+<array-iterator as="product-tbody" usetag="tbody">
+    <product-tr></product-tr>
+</array-iterator>
+
+<div super="array-iterator" as="product-tr" tagname="tr">
+    <product-td></product-td>
+    <script>
+        let setData = this.onSetData.bind(this);
+
+        this.onSetData = (data, opts) => {
+            let row = [data.name];
+            opts.forEach((field) => {
+                row.push(data.fields[field].value);
+            });
+            row.push(data.price);
+            row.push({ id: data.id });
+            setData(row);
+        }
+    </script>
+</div>
+
+<div as="product-td" tagname="td">
+    <script>
+        this.onSetData = (data) => {
+            this.innerText = "";
+
+            if (data?.id) {
+                let btn = factory.create('product-select-button');
+
+                btn.setData(data.id);
+                btn.mount(this);
+
+                return;
+            }
+
+            this.innerText = data;
+        }
+    </script>
+</div>
+
+<button as="product-select-button">
+    Select
+    <script>
+        this.onSetData = (id) => {
+            this.onclick = () => appContext.sendAnswer(
+                {
+                    action: 'OK',
+                    id
+                }
+            );
+        }
+    </script>
+</button>
+
+<div as="product-page-selector">
+    <button ref="first">&lt;&lt;</button>
+    <button ref="back">&lt;</button>
+
+    <div ref="current" style="width:50px; display:inline-block; text-align:center;"></div>
+
+    <button ref="next">&gt;</button>
+    <button ref="last">&gt;&gt;</button>
+    <script>
+
+        let numPages;
+        let lastPage;
+        let nextPage;
+        let prevPage;
+        let page;
+
+        let setPage;
+
+        this.onSetData = (data, onChange) => {
+            numPages = Math.ceil(data.listSize / data.pageSize);
+            page = data.page;
+            lastPage = numPages - 1;
+            nextPage = page + 1;
+            prevPage = page - 1;
+            setPage = onChange;
+
+            this.ref.current.innerText = (page + 1) + " of " + numPages;
+        }
+
+        this.onDestroy = () => setPage = undefined;
+
+        this.ref.first.onclick = () => (page > 0) && setPage(0);
+        this.ref.back.onclick = () => (page > 0) && setPage(prevPage);
+        this.ref.next.onclick = () => (nextPage <= lastPage) && setPage(nextPage);
+        this.ref.last.onclick = () => (page < numPages - 1) && setPage(numPages - 1);
+
+    </script>
+</div>
