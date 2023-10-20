@@ -20,8 +20,8 @@ public class CatalogProductServiceStub implements CatalogProductService {
     @Override
     public List<Product> getByCategory(@NotNull String category){
         return Stub.products.stream()
-                .filter(item -> category.equals(item.getCategory()))
-                .sorted((a, b) -> a.compareTo(b)*-1).collect(Collectors.toList());
+                .filter(item -> category.equals(item.getCategory()) && item.getPrice() != null)
+                .collect(Collectors.toList());
     }
 
     @Override

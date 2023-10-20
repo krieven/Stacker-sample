@@ -31,13 +31,13 @@ public class ProductResourceHandler extends ResourceController<ProductData> {
 
     @Override
     protected @NotNull StateCompletion handle(List<String> pathInfo, Map<String, String[]> params, FlowContext<? extends ProductData> flowContext) {
-        int pageSize = Probe.tryGet(() -> Integer.parseInt(pathInfo.get(0),10)).orElse(20);
+        int pageSize = Probe.tryGet(() -> Integer.parseInt(pathInfo.get(0),10)).orElse(3);
         int pageNumber = Probe.tryGet(() -> Integer.parseInt(pathInfo.get(1), 10)).orElse(0);
 
         ProductData.StateModel stateModel = flowContext.getFlowData().getStateModel(productState);
         List<Product> products = catalogProductService.getByCategory(stateModel.getCategoryId())
                 .stream().filter(Objects::nonNull).sorted(
-                        Comparator.comparing(Product::getPrice)
+                        Comparator.comparing(Product::getPrice).reversed()
                 ).collect(Collectors.toList());
 
         Response response = Response.create(

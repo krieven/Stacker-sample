@@ -18,6 +18,11 @@
             <version>${stacker.version}</version>
         </dependency>
         <dependency>
+            <groupId>io.github.krieven.stacker</groupId>
+            <artifactId>stacker-util</artifactId>
+            <version>${stacker.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>31.0.1-jre</version>

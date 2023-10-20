@@ -6,6 +6,7 @@ import io.github.krieven.stacker.sample.model.CategoryLink;
 import io.github.krieven.stacker.sample.model.Category;
 import io.github.krieven.stacker.sample.model.Product;
 import io.github.krieven.stacker.sample.model.KeyVal;
+import io.github.krieven.stacker.util.ListUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -65,7 +66,7 @@ class Stub {
             )
     );
 
-    static final List<Product> products = ImmutableList.of(
+    static final List<Product> products = ListUtils.aListOf(
             Product.build("1", Cat.DESKTOP.name(), "SuperPower Inc 98769", 1000,
                     ImmutableMap.of(
                             FieldKey.FORCE.name(), new Product.Field(Product.Field.Type.NUMBER, "100"),
@@ -79,6 +80,33 @@ class Stub {
                     )
             ),
             Product.build("3", Cat.DESKTOP.name(), "SuperPower Inc 98768", 999,
+                    ImmutableMap.of(
+                            FieldKey.FORCE.name(), new Product.Field(Product.Field.Type.NUMBER, "100"),
+                            FieldKey.SIZE.name(), new Product.Field(Product.Field.Type.NUMBER, "100")
+                    )
+            ),
+
+            Product.build("4", Cat.DESKTOP.name(), "SuperPower Inc 98769", 1000,
+                    ImmutableMap.of(
+                            FieldKey.FORCE.name(), new Product.Field(Product.Field.Type.NUMBER, "100"),
+                            FieldKey.SIZE.name(), new Product.Field(Product.Field.Type.NUMBER, "100")
+                    )
+            ),Product.build("5", Cat.DESKTOP.name(), "SuperPower Inc 98769", 1000,
+                    ImmutableMap.of(
+                            FieldKey.FORCE.name(), new Product.Field(Product.Field.Type.NUMBER, "100"),
+                            FieldKey.SIZE.name(), new Product.Field(Product.Field.Type.NUMBER, "100")
+                    )
+            ),Product.build("6", Cat.DESKTOP.name(), "SuperPower Inc 98769", 1000,
+                    ImmutableMap.of(
+                            FieldKey.FORCE.name(), new Product.Field(Product.Field.Type.NUMBER, "100"),
+                            FieldKey.SIZE.name(), new Product.Field(Product.Field.Type.NUMBER, "100")
+                    )
+            ),Product.build("7", Cat.DESKTOP.name(), "SuperPower Inc 98769", 1000,
+                    ImmutableMap.of(
+                            FieldKey.FORCE.name(), new Product.Field(Product.Field.Type.NUMBER, "100"),
+                            FieldKey.SIZE.name(), new Product.Field(Product.Field.Type.NUMBER, "100")
+                    )
+            ),Product.build("8", Cat.DESKTOP.name(), "SuperPower Inc 98769", 1000,
                     ImmutableMap.of(
                             FieldKey.FORCE.name(), new Product.Field(Product.Field.Type.NUMBER, "100"),
                             FieldKey.SIZE.name(), new Product.Field(Product.Field.Type.NUMBER, "100")

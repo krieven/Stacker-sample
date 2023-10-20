@@ -17,8 +17,8 @@
     loadScreen.loaded = {};
     loadScreen.onLoad = (factory, state, data) => {
         currentScreen && (currentScreen.stop() || currentScreen.destroy());
-        const screen = factory.create(state + '-screen');
-        if (!screen.mount) {
+        const screen = factory?.create(state + '-screen');
+        if (!screen?.mount) {
             console.log('screen ' + state + ' is not loaded');
             return;
         }
@@ -33,6 +33,8 @@
     }
 
     function sendAnswer(answer) {
+        loadScreen("lib/common", "loading", null, appContext);
+
         fetch('/api/', { method: 'POST', body: JSON.stringify(answer) })
             .then(resp => resp.json())
             .then(
