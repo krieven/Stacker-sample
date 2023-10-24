@@ -1,6 +1,6 @@
 package io.github.krieven.stacker.sample.flow.basket.states.basket;
 
-import io.github.krieven.stacker.sample.flow.pack.contract.Pack;
+import io.github.krieven.stacker.sample.model.Pack;
 import io.github.krieven.stacker.util.Probe;
 
 import javax.validation.constraints.NotNull;
@@ -27,7 +27,7 @@ public class BasketStateModel {
         this.index = index;
     }
 
-    public Pack getSelectedPack() {
+    public Pack readSelectedPack() {
         return Probe.tryGet(() -> packs.get(index)).orElse(null);
     }
 

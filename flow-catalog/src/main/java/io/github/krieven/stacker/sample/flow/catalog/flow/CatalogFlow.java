@@ -73,19 +73,7 @@ public class CatalogFlow extends BaseFlow<CatalogFlowRq, CatalogFlowRs, FlowData
         }
 
         CatalogFlowRs catalogFlowRs = new CatalogFlowRs();
-
-        catalogFlowRs.setId(product.getId());
-        catalogFlowRs.setCategory(product.getCategory());
-        catalogFlowRs.setName(product.getName());
-        catalogFlowRs.setPrice(product.getPrice());
-        Map<String, CatalogFlowRs.Field> fields = new HashMap<>();
-        product.getFields().forEach((key, value) -> {
-            CatalogFlowRs.Field field = new CatalogFlowRs.Field();
-            field.setType(value.getType().name());
-            field.setValue(value.getValue());
-            fields.put(key, field);
-        });
-        catalogFlowRs.setFields(fields);
+        catalogFlowRs.setProduct(product);
         return catalogFlowRs;
     }
 }

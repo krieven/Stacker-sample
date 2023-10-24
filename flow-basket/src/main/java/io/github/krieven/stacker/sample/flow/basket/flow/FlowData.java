@@ -28,7 +28,6 @@ public class FlowData implements CallPackStateData, BasketStateData {
         this.basketFlowRq = basketFlowRq;
     }
 
-
     public BasketStateModel getBasketStateModel() {
         return basketStateModel = basketStateModel == null ? new BasketStateModel(): basketStateModel;
     }
@@ -40,7 +39,7 @@ public class FlowData implements CallPackStateData, BasketStateData {
     @Override
     public FlowPackRq createFlowPackRq() {
         FlowPackRq question = new FlowPackRq();
-        question.setPack(getBasketStateModel().getSelectedPack());
+        question.setPack(getBasketStateModel().readSelectedPack());
         return question;
     }
 

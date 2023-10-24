@@ -153,8 +153,8 @@
 
         this.ref.first.onclick = () => (page > 0) && setPage(0);
         this.ref.back.onclick = () => (page > 0) && setPage(prevPage);
-        this.ref.next.onclick = () => (nextPage <= lastPage) && setPage(nextPage);
-        this.ref.last.onclick = () => (page < numPages - 1) && setPage(numPages - 1);
+        this.ref.next.onclick = () => (page < lastPage) && setPage(nextPage);
+        this.ref.last.onclick = () => (page < lastPage) && setPage(lastPage);
 
     </script>
 </div>
