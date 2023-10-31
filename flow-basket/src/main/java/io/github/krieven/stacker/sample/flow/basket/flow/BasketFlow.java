@@ -33,8 +33,6 @@ public class BasketFlow extends BaseFlow<BasketFlowRq, BasketFlowRs, FlowData> {
 
         addState(BASKET, new BasketState()
                         .withExit(BasketState.Exits.PACK, PACK)
-//                .withExit(ShowBasketState.Exits.EXECUTE, EXECUTE)
-//                        .withTerminator(ShowBasketState.Exits.EXIT)
                         .withExit(BasketState.Exits.EDIT, PACK)
         );
 

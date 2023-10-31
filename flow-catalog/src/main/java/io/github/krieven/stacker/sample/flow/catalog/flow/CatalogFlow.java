@@ -17,6 +17,7 @@ import io.github.krieven.stacker.sample.services.CatalogProductService;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 public class CatalogFlow extends BaseFlow<CatalogFlowRq, CatalogFlowRs, FlowData> {
@@ -62,7 +63,7 @@ public class CatalogFlow extends BaseFlow<CatalogFlowRq, CatalogFlowRs, FlowData
     }
 
     protected FlowData createFlowData(CatalogFlowRq flowRequest, FlowContext<FlowData> flowContext) {
-        return FlowData.build(flowRequest);
+        return FlowData.build(Optional.ofNullable(flowRequest).orElse(new CatalogFlowRq()));
     }
 
     protected CatalogFlowRs makeReturn(FlowContext<FlowData> flowContext) {

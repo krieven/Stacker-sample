@@ -21,7 +21,7 @@ public class FlowData implements CategoryData, ProductData, IdentData {
     private IdentStateModel identStateModel;
     private Product productResult;
 
-    public static @NotNull FlowData build(CatalogFlowRq flowRequest) {
+    public static @NotNull FlowData build(@NotNull CatalogFlowRq flowRequest) {
         FlowData result = new FlowData();
         result.setFlowRequest(flowRequest);
         return result;
@@ -38,12 +38,11 @@ public class FlowData implements CategoryData, ProductData, IdentData {
     @Override
     @NotNull
     public CategoryStateModel getStateModel(CategoryState state) {
-        flowRequest = Optional.ofNullable(flowRequest).orElse(new CatalogFlowRq());
-        if (getCategoryStateModel() == null) {
-            setCategoryStateModel(new CategoryStateModel());
-            getCategoryStateModel().setRootCategoryId(getFlowRequest().getCategoryId());
+        if (categoryStatModel == null) {
+            categoryStatModel = new CategoryStateModel();
+            categoryStatModel.push(Optional.ofNullable(flowRequest).orElse(new CatalogFlowRq()).getCategoryId());
         }
-        return getCategoryStateModel();
+        return categoryStatModel;
     }
 
     @Override
@@ -89,7 +88,7 @@ public class FlowData implements CategoryData, ProductData, IdentData {
 
         @Override
         public String getCategoryId() {
-            return getCategoryStateModel().getProductCategoryId();
+            return categoryStatModel.peek();
         }
 
         @Override

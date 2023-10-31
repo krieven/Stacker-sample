@@ -42,6 +42,11 @@ public class CatalogCategoryServiceStub implements CatalogCategoryService {
     }
 
     @Override
+    public boolean isProductCategory(String categoryId) {
+        return getCategory(categoryId) != null && getChildren(categoryId).isEmpty();
+    }
+
+    @Override
     public boolean isParent(String rootCategoryId, String categoryId) {
         if (rootCategoryId == null || rootCategoryId.equalsIgnoreCase(categoryId)) {
             return true;

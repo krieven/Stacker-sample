@@ -46,96 +46,78 @@ public class CategoryState extends StateQuestion<CategoryQ, CategoryA, CategoryD
         this.catalogCategoryService = catalogCategoryService;
     }
 
-    protected @NotNull StateCompletion handleAnswer(CategoryA answer, FlowContext<? extends CategoryData> flowContext) {
-        if (answer == null) {
-            return onEnter(flowContext);
+    protected @NotNull StateCompletion handleAnswer(CategoryA answer, FlowContext<? extends CategoryData> context) {
+        if (answer == null || answer.getAction() == null) {
+            return onEnter(context);
         }
 
-        return Optional.ofNullable(actionHandlers.get(answer.getAction()))
-                .orElse(actionHandlers.get(CategoryA.Action.OK))
-                .apply(answer, flowContext);
+        return actionHandlers.get(answer.getAction()).apply(answer, context);
     }
 
-    protected @NotNull StateCompletion onEnter(FlowContext<? extends CategoryData> flowContext) {
-
-        CategoryStateModel categoryStateModel = flowContext.getFlowData().getStateModel(this);
-
-        String categoryId = categoryStateModel.getCurrentCategoryId();
-        String rootCategoryId = categoryStateModel.getRootCategoryId();
-
-        //if categoryId is not categoryId or if we are trying to go up over the Flow argument root
-        //then exit to back
-        Category category = catalogCategoryService.getCategory(categoryId);
-        if ((categoryId != null && category == null) ||
-                !catalogCategoryService.isParent(rootCategoryId, categoryId)) {
-            return exitState(Exits.BACK, flowContext);
+    protected @NotNull StateCompletion onEnter(FlowContext<? extends CategoryData> context) {
+        CategoryStateModel stateModel = context.getFlowData().getStateModel(this);
+        if (stateModel.isEmpty()) {
+            return exitState(Exits.BACK, context);
         }
-        //if chosen category has no children categories then go forward
-        if (catalogCategoryService.getChildren(categoryId).isEmpty()) {
-            categoryStateModel.setProductCategoryId(categoryId);
-            return exitState(Exits.FORWARD, flowContext);
+        //if we are returned to this state from other state
+        if (stateModel.getResultId() != null) {
+            stateModel.pop();
+            stateModel.setResultId(null);
+            if (stateModel.isEmpty()) {
+                return exitState(Exits.BACK, context);
+            }
         }
-        //otherwise, send question
-        CategoryQ question = new CategoryQ();
+        String categoryId = stateModel.peek();
+        //if is leaf category then go forward
+        if (catalogCategoryService.isProductCategory(categoryId)) {
+            stateModel.setResultId(categoryId);
+            return exitState(Exits.FORWARD, context);
+        }
+        if (categoryId != null && catalogCategoryService.getCategory(categoryId) == null) {
+            return exitState(Exits.BACK, context);
+        }
 
-        question.setTitle(getTitle(category));
+        return sendQuestion(createQ(categoryId), context);
 
-        question.setCategories(
-                catalogCategoryService.getChildren(
-                        categoryId
-                )
-        );
-
-        return sendQuestion(question, flowContext);
     }
 
-    private StateCompletion onOkAction(CategoryA answer, FlowContext<? extends CategoryData> flowContext) {
-
-        Category category = catalogCategoryService.getCategory(answer.getCategoryId());
-        CategoryStateModel stateModel = flowContext.getFlowData().getStateModel(this);
-
-        if (!catalogCategoryService.isParent(stateModel.getRootCategoryId(), answer.getCategoryId())) {
-            return onEnter(flowContext);
+    private StateCompletion onOkAction(CategoryA answer, FlowContext<? extends CategoryData> context) {
+        CategoryStateModel stateModel = context.getFlowData().getStateModel(this);
+        String categoryId = answer.getCategoryId();
+        stateModel.push(categoryId);
+        if (catalogCategoryService.isProductCategory(categoryId)) {
+            stateModel.setResultId(categoryId);
+            return exitState(Exits.FORWARD, context);
         }
-
-        List<Category> children = catalogCategoryService.getChildren(answer.getCategoryId());
-
-        if (children.isEmpty()) {
-            stateModel.setProductCategoryId(answer.getCategoryId());
-            return exitState(Exits.FORWARD, flowContext);
-        }
-
-        stateModel.setCurrentCategoryId(answer.getCategoryId());
-
-        CategoryQ question = new CategoryQ();
-        question.setTitle(
-                getTitle(category)
-        );
-        question.setCategories(children);
-
-        return sendQuestion(question, flowContext);
+        return sendQuestion(createQ(categoryId), context);
     }
 
-    private StateCompletion onUpAction(CategoryA answer, FlowContext<? extends CategoryData> flowContext) {
-        CategoryStateModel model = flowContext.getFlowData().getStateModel(this);
-        String id = model.getCurrentCategoryId();
-        id = id == null ? model.getRootCategoryId() : id;
-
-        Category current = catalogCategoryService.getCategory(id);
-        if(current == null) {
-            return exitState(Exits.BACK, flowContext);
+    private StateCompletion onUpAction(CategoryA answer, FlowContext<? extends CategoryData> context) {
+        CategoryStateModel stateModel = context.getFlowData().getStateModel(this);
+        if (!stateModel.isEmpty()) {
+            stateModel.pop();
         }
-        String parent = current.getParent();
-
-        CategoryA up = new CategoryA();
-        up.setCategoryId(parent);
-        up.setAction(CategoryA.Action.OK);
-        return onOkAction(up, flowContext);
+        if (stateModel.isEmpty()) {
+            return exitState(Exits.BACK, context);
+        }
+        String categoryId = stateModel.peek();
+        if (catalogCategoryService.isProductCategory(categoryId)) {
+            stateModel.setResultId(categoryId);
+            return exitState(Exits.FORWARD, context);
+        }
+        return sendQuestion(createQ(categoryId), context);
     }
 
     private static String getTitle(Category category) {
         return Probe.tryGet(() -> "Please select category of " + category.getTitle())
                 .orElse(PLEASE_SELECT_PRODUCT_CATEGORY);
+    }
+
+    private CategoryQ createQ(String categoryId) {
+        CategoryQ question = new CategoryQ();
+        question.setCategories(catalogCategoryService.getChildren(categoryId));
+        question.setTitle(getTitle(catalogCategoryService.getCategory(categoryId)));
+        return question;
     }
 
     public enum Exits {

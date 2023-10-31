@@ -204,7 +204,9 @@ public class TestCategoryState {
 
         FlowData flowData = FlowData.build(rq);
         CategoryStateModel categoryStateModel = new CategoryStateModel();
-        categoryStateModel.setCurrentCategoryId("DESKTOP");
+        categoryStateModel.push(null);
+        categoryStateModel.push("COMP");
+        categoryStateModel.push("DESKTOP");
         flowData.setCategoryStateModel(categoryStateModel);
 
         input.setFlowData(parser.serialize(flowData));
@@ -246,7 +248,7 @@ public class TestCategoryState {
         rq.setCategoryId("COMP");
         FlowData flowData = FlowData.build(rq);
         CategoryStateModel categoryStateModel = new CategoryStateModel();
-        categoryStateModel.setCurrentCategoryId("DESKTOP");
+        categoryStateModel.push("DESKTOP");
         flowData.setCategoryStateModel(categoryStateModel);
         input.setFlowData(parser.serialize(flowData));
         CategoryA categoryA = new CategoryA();

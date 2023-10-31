@@ -11,5 +11,8 @@ public interface CatalogCategoryService {
 
     List<Category> getAdditional(String categoryId);
 
+    boolean isProductCategory(String categoryId);
+
     boolean isParent(String rootCategoryId, String categoryId);
+
 }

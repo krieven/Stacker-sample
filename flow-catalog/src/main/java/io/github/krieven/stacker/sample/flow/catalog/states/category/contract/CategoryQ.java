@@ -10,8 +10,6 @@ public class CategoryQ {
 
     private List<Category> categories;
 
-    private CategoryA.Action[] actions = CategoryA.Action.values();
-
     public String getTitle() {
         return title;
     }
@@ -26,13 +24,5 @@ public class CategoryQ {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
-    }
-
-    public CategoryA.Action[] getActions() {
-        return actions;
-    }
-
-    public void setActions(CategoryA.Action[] actions) {
-        this.actions = actions;
     }
 }

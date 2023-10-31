@@ -1,10 +1,12 @@
 package io.github.krieven.stacker.sample.flow.pack.states.callCatalog;
 
 import io.github.krieven.stacker.flow.*;
-import javax.validation.constraints.NotNull;import io.github.krieven.stacker.sample.flow.catalog.contract.CatalogFlowContract;
+
+import javax.validation.constraints.NotNull;
+
+import io.github.krieven.stacker.sample.flow.catalog.contract.CatalogFlowContract;
 import io.github.krieven.stacker.sample.flow.catalog.contract.CatalogFlowRq;
 import io.github.krieven.stacker.sample.flow.catalog.contract.CatalogFlowRs;
-import io.github.krieven.stacker.sample.model.Product;
 
 public class CallCatalogState extends StateOuterCall<CatalogFlowRq, CatalogFlowRs, CallCatalogStateData, CallCatalogState.Exits> {
     public CallCatalogState() {
@@ -21,20 +23,21 @@ public class CallCatalogState extends StateOuterCall<CatalogFlowRq, CatalogFlowR
 
     @Override
     protected @NotNull StateCompletion handleAnswer(CatalogFlowRs catalogFlowRs, FlowContext<? extends CallCatalogStateData> flowContext) {
-        if(catalogFlowRs == null){
-            return exitState(Exits.RETURN, flowContext);
+        if (catalogFlowRs == null || catalogFlowRs.getProduct() == null) {
+            return exitState(Exits.RETURN_NULL, flowContext);
         }
         CallCatalogStateData.CallCatalogStateModel stateModel = flowContext.getFlowData().getStateModel(this);
-        stateModel.setProduct(catalogFlowRs.getProduct());
-        return exitState(Exits.RETURN, flowContext);
+        stateModel.addProduct(catalogFlowRs.getProduct());
+        return exitState(Exits.RETURN_PRODUCT, flowContext);
     }
 
     @Override
     protected @NotNull StateCompletion onErrorParsingAnswer(FlowContext<? extends CallCatalogStateData> flowContext) {
-        return exitState(Exits.RETURN, flowContext);
+        return exitState(Exits.RETURN_NULL, flowContext);
     }
 
     public enum Exits {
-        RETURN
+        RETURN_NULL,
+        RETURN_PRODUCT
     }
 }

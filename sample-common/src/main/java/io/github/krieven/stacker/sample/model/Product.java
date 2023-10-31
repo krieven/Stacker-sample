@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Map;
 
-public class Product implements Comparable<Product>{
+public class Product implements Comparable<Product> {
 
     private String id;
 
@@ -16,13 +16,17 @@ public class Product implements Comparable<Product>{
 
     private Map<String, Field> fields;
 
-    public static Product build(String id, String caregory, String name, double price, Map<String, Field> fields){
+    public static Product build(String id, String caregory, String name, double price, Map<String, Field> fields) {
+        return Product.build(id, caregory, name, BigDecimal.valueOf(price), fields);
+    }
+
+    public static Product build(String id, String caregory, String name, BigDecimal price, Map<String, Field> fields) {
         Product res = new Product();
 
         res.setId(id);
         res.setCategory(caregory);
         res.setName(name);
-        res.setPrice(BigDecimal.valueOf(price));
+        res.setPrice(price);
         res.setFields(fields);
         return res;
     }
@@ -73,8 +77,8 @@ public class Product implements Comparable<Product>{
     }
 
     public static class Field implements Comparable<Field> {
-        private  Type type;
-        private  String value;
+        private Type type;
+        private String value;
 
         public Field(@NotNull Type type, @NotNull String value) {
             this.setType(type);

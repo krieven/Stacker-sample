@@ -1,0 +1,58 @@
+<main as="edit_pack-screen">
+    <button ref="back">&lt;</button>
+    <h2>Edit pack</h2>
+
+    <array-iterator ref="items" usetag="table" style="width: 300px;">
+        <item-li></item-li>
+    </array-iterator>
+
+    <div style="margin: 30px 20px;">total sum: <span ref="sum" style="font-weight: bold;"></span></div>
+
+    <button ref="ok">add to basket</button>
+    <script>
+        let price = 0;
+        this.onSetData = (data) => {
+            price = data.price;
+            this.ref.items.setData(data.items);
+            this.ref.ok.innerText = price ? 'add to basket' : 'back to basket';
+            this.ref.sum.innerText = price || 0.00;
+        };
+
+        this.ref.ok.onclick = () => {
+            appContext.sendAnswer(
+                price && { action: 'OK' } || { action: 'BACK' }
+            );
+        };
+        this.ref.back.onclick = () => {
+            appContext.sendAnswer(
+                { action: 'BACK' }
+            );
+        };
+    </script>
+</main>
+
+<div as="item-li" tagname="tr" style="border: 1px solid black;">
+    <span ref="title" tagname="td"></span>
+    <span tagname="td"><button ref="action" style="width: 20px; height: 20px;"></button></span>
+    <span ref="price" tagname="td"></span>
+
+    <script>
+        let type;
+        let id;
+        this.onSetData = (data) => {
+            this.ref.title.innerText = (data.type == 'ADD' && ' > ' || '') + data.title;
+            this.ref.action.innerText = data.type == 'ADD' && '+' || '-';
+            this.ref.price.innerText = data.price || '';
+
+            type = data.type;
+            id = data.id;
+        }
+
+        this.ref.action.onclick = () => {
+            appContext.sendAnswer(
+                { action: type, id }
+            )
+        }
+
+    </script>
+</div>

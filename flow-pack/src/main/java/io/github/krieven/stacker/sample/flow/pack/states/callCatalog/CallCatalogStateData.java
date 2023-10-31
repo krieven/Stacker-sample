@@ -7,6 +7,6 @@ public interface CallCatalogStateData {
 
     interface CallCatalogStateModel {
         String getCategoryId();
-        void setProduct(Product product);
+        void addProduct(Product product);
     }
 }
