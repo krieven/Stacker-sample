@@ -1,20 +1,22 @@
 (function () {
+    
+    let currentScreen;
+    const loadedScreens = {};
 
     function loadScreen(flow, state, data, appContext) {
-        if (loadScreen.loaded[flow]) {
-            loadScreen.onLoad(loadScreen.loaded[flow], state, data);
+        if (loadedScreens[flow]) {
+            loadScreen.onLoad(loadedScreens[flow], state, data);
             return;
         }
         moduleLoader(appContext,
             'components/' + flow + ".html",
             reader,
             (factory) => {
-                loadScreen.loaded[flow] = factory;
+                loadedScreens[flow] = factory;
                 loadScreen.onLoad(factory, state, data);
             });
     }
-    let currentScreen;
-    loadScreen.loaded = {};
+
     loadScreen.onLoad = (factory, state, data) => {
         currentScreen && (currentScreen.stop() || currentScreen.destroy());
         const screen = factory?.create(state + '-screen');
@@ -25,11 +27,6 @@
         currentScreen = screen;
         screen.mount(document.getElementById('application-root'));
         screen.setData(data);
-    }
-
-    const appContext = {
-        sendAnswer,
-        loadResource
     }
 
     function sendAnswer(answer) {
@@ -48,6 +45,11 @@
         fetch('/api' + url)
             .then(resp => resp.json())
             .then(callback);
+    }
+
+    const appContext = {
+        sendAnswer,
+        loadResource
     }
 
     sendAnswer();
