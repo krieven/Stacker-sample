@@ -1,11 +1,11 @@
 # Stacker-sample
 ***Stacker sample application***
 
-----
+---
 
 ## Description
 
-Stacker sample application is the first [Stacker](https://github.com/krieven/Stacker) based application.
+Stacker sample application is the first [krieven / Stacker](https://github.com/krieven/Stacker)-based app.
 It can be used as reference and demonstrates how to use Stacker 
 to build scalability applications.
 
@@ -23,7 +23,7 @@ to build scalability applications.
 
 ## How to run
 
->Note: Stacker and Stacker-sample both written on Java 11
+>Stacker and Stacker-sample are written on Java 11
 
 To Run the application you should 
 

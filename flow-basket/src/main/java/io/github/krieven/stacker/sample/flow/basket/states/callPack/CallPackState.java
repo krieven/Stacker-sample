@@ -18,19 +18,19 @@ public class CallPackState extends StateOuterCall<FlowPackRq, FlowPackRs, CallPa
     }
 
     @Override
-    protected @NotNull StateCompletion handleAnswer(FlowPackRs flowPackRs, FlowContext<? extends CallPackStateData> flowContext) {
-
-        return exitState(Exits.OK, flowContext);
+    protected @NotNull StateCompletion handleAnswer(FlowPackRs flowPackRs, FlowContext<? extends CallPackStateData> context) {
+        context.getFlowData().setFlowPackRs(flowPackRs);
+        return exitState(Exits.OK, context);
     }
 
     @Override
-    protected @NotNull StateCompletion onErrorParsingAnswer(FlowContext<? extends CallPackStateData> flowContext) {
-        return exitState(Exits.OK, flowContext);
+    protected @NotNull StateCompletion onErrorParsingAnswer(FlowContext<? extends CallPackStateData> context) {
+        return exitState(Exits.OK, context);
     }
 
     @Override
-    protected @NotNull StateCompletion onEnter(FlowContext<? extends CallPackStateData> flowContext) {
-        return sendQuestion(flowContext.getFlowData().createFlowPackRq(), flowContext);
+    protected @NotNull StateCompletion onEnter(FlowContext<? extends CallPackStateData> context) {
+        return sendQuestion(context.getFlowData().createFlowPackRq(), context);
     }
 
     public enum Exits{

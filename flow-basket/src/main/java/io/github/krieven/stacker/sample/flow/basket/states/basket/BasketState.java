@@ -8,7 +8,6 @@ import io.github.krieven.stacker.flow.StateCompletion;
 import io.github.krieven.stacker.flow.StateQuestion;
 import io.github.krieven.stacker.sample.contract.WrapQuestion;
 import io.github.krieven.stacker.sample.flow.basket.states.basket.contract.BasketStateA;
-import io.github.krieven.stacker.sample.flow.basket.states.basket.contract.BasketStateAction;
 import io.github.krieven.stacker.sample.flow.basket.states.basket.contract.BasketStateQ;
 
 import javax.validation.constraints.NotNull;
@@ -17,9 +16,9 @@ import java.util.function.BiFunction;
 
 public class BasketState extends StateQuestion<BasketStateQ, BasketStateA, BasketStateData, BasketState.Exits> {
 
-    Map<BasketStateAction, BiFunction<BasketStateA, FlowContext<? extends BasketStateData>, StateCompletion>> actionHandlers = ImmutableMap.of(
-            BasketStateAction.ADD, this::addActionHandler,
-            BasketStateAction.EDIT, this::editActionHandler
+    Map<BasketStateA.Action, BiFunction<BasketStateA, FlowContext<? extends BasketStateData>, StateCompletion>> actionHandlers = ImmutableMap.of(
+            BasketStateA.Action.ADD, this::addActionHandler,
+            BasketStateA.Action.EDIT, this::editActionHandler
     );
 
     public BasketState() {
@@ -45,22 +44,24 @@ public class BasketState extends StateQuestion<BasketStateQ, BasketStateA, Baske
     }
 
     private StateCompletion addActionHandler(BasketStateA answer, FlowContext<? extends BasketStateData> context) {
-        return exitState(Exits.PACK, context);
+        return exitState(Exits.EDIT, context);
     }
     private StateCompletion editActionHandler(BasketStateA basketStateA, FlowContext<? extends BasketStateData> flowContext) {
         BasketStateModel stateModel = flowContext.getFlowData().getStateModel(this);
         stateModel.setIndex(basketStateA.getIndex());
-        return exitState(Exits.PACK, flowContext);
+        return exitState(Exits.EDIT, flowContext);
     }
 
     private StateCompletion defaultActionHandler(BasketStateA basketStateA, FlowContext<? extends BasketStateData> context) {
-        return sendQuestion(new BasketStateQ(), context);
+        BasketStateQ question = new BasketStateQ();
+        question.setPackList(context.getFlowData().getStateModel(this).getPacks());
+        return sendQuestion(question, context);
     }
 
     public enum Exits {
-        PACK,
+        EDIT
 //                EXECUTE,
 //                EXIT,
-        EDIT
+
     }
 }

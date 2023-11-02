@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BasketStateModel {
-    private int index = -1;
+    private Integer index;
     private List<Pack> packs = new ArrayList<>();
 
     public List<Pack> getPacks() {
@@ -19,11 +19,11 @@ public class BasketStateModel {
         this.packs = packs;
     }
 
-    public int getIndex() {
+    public Integer getIndex() {
         return index;
     }
 
-    public void setIndex(int index) {
+    public void setIndex(Integer index) {
         this.index = index;
     }
 
@@ -31,21 +31,17 @@ public class BasketStateModel {
         return Probe.tryGet(() -> packs.get(index)).orElse(null);
     }
 
-    public void putPack(Pack pack) {
-        int currentIndex = index;
-        index = -1;
-
-        if (currentIndex < 0) {
-            if(pack == null || pack.isEmpty()) {
+    public void putPack(Integer id, Pack pack) {
+        if(pack != null && !pack.isEmpty()) {
+            if (id == null) {
+                packs.add(pack);
                 return;
             }
-            packs.add(pack);
+            packs.set(id, pack);
             return;
         }
-        if(pack == null || pack.isEmpty()) {
-            packs.remove(currentIndex);
-            return;
+        if(id != null) {
+            packs.remove(id.intValue());
         }
-        packs.set(currentIndex, pack);
     }
 }

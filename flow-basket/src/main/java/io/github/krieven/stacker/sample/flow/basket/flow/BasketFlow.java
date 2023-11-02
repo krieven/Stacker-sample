@@ -32,7 +32,6 @@ public class BasketFlow extends BaseFlow<BasketFlowRq, BasketFlowRs, FlowData> {
         addState(PACK, new CallPackState().withExit(CallPackState.Exits.OK, BASKET));
 
         addState(BASKET, new BasketState()
-                        .withExit(BasketState.Exits.PACK, PACK)
                         .withExit(BasketState.Exits.EDIT, PACK)
         );
 
