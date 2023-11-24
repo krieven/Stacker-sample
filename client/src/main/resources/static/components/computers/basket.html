@@ -1,8 +1,8 @@
 <main as="basket-screen">
     <h2>Basket</h2>
 
-    <array-iterator ref="packList" useTag="table">
-
+    <array-iterator ref="packList">
+        <pack-li></pack-li>
     </array-iterator>
 
     <div ref="message"></div>
@@ -13,7 +13,11 @@
 
         this.onSetData = (data) => {
             this.ref.packList.setData(data?.packList || []);
-            this.ref.message.innerText = data?.packList?.length ? '' : "Basket is empty";
+
+            let size = data?.packList?.length;
+            this.ref.message.innerText = size ?
+                'Basket contains ' + size + (size > 1 ? ' packs' : ' pack') :
+                "Basket is empty";
         }
 
         this.ref.add.onclick = () => {
@@ -24,3 +28,35 @@
 
     </script>
 </main>
+
+<div as="pack-li">
+    <div>
+        <array-iterator ref="products" usetag="table">
+            <product-li></product-li>
+        </array-iterator>
+    </div>
+    <div>
+        <button ref="edit">edit &gt;</button>
+    </div>
+    <script>
+        this.onSetData = (data, opts, i) => {
+            this.ref.products.setData(data.products);
+            this.ref.edit.onclick= () => {
+                appContext.sendAnswer(
+                    {action: 'EDIT', index: i}
+                )
+            }
+        }
+    </script>
+</div>
+
+<div as="product-li" tagname="tr">
+    <div ref="name" tagname="td"></div>
+    <div ref="price" tagname="td"></div>
+    <script>
+        this.onSetData = (product) => {
+            this.ref.name.innerText = product.name;
+            this.ref.price.innerText = product.price;
+        }
+    </script>
+</div>

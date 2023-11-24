@@ -58,13 +58,11 @@ public class PackFlow extends BaseFlow<FlowPackRq, FlowPackRs, FlowPackData> {
     @Override
     protected FlowPackRs makeReturn(FlowContext<FlowPackData> context) {
         FlowPackData flowData = context.getFlowData();
-        Pack thePack = flowData.getThePack();
-
         FlowPackRs flowPackRs = new FlowPackRs();
-        flowPackRs.setId(
-                Probe.tryGet(() -> flowData.getFlowPackRq().getId()).orElse(null)
-        );
-        flowPackRs.setPack(thePack);
+
+        flowPackRs.setId(flowData.getId());
+        flowPackRs.setPack(flowData.getThePack());
+
         return flowPackRs;
     }
 

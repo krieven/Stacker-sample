@@ -22,7 +22,7 @@ public class EnterPackState extends State<FlowPackData, EnterPackState.Exits> {
 
     @Override
     protected @NotNull StateCompletion onEnter(FlowContext<? extends FlowPackData> context) {
-        if (context.getFlowData().getFlowPackRq().getPack() == null) {
+        if (context.getFlowData().getThePack() == null) {
             return exitState(Exits.CREATE_PACK, context);
         }
         return exitState(Exits.EDIT_PACK, context);

@@ -118,7 +118,8 @@ public class Product implements Comparable<Product> {
 
         public enum Type {
             STRING,
-            NUMBER
+            NUMBER,
+            BOOLEAN;
         }
 
 

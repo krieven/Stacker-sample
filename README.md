@@ -6,8 +6,8 @@
 ## Description
 
 Stacker sample application is the first [krieven / Stacker](https://github.com/krieven/Stacker)-based app.
-It can be used as reference and demonstrates how to use Stacker 
-to build scalability applications.
+It can be used as reference and explain how to use Stacker 
+to build scalable cloud-native workflow applications.
 
 ## The application consists of 
 - [Client](./client/README.md) 

@@ -7,7 +7,7 @@ public interface EditPackStateData {
     interface EditPackStateModel {
         Pack getPack();
 
-        void removeAll();
+        void clean();
 
         void setAddProductCategory(String id);
     }

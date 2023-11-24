@@ -2,8 +2,12 @@ package io.github.krieven.stacker.sample.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Pack {
 
@@ -14,7 +18,8 @@ public class Pack {
     }
 
     public void setProducts(List<Product> products) {
-        this.products = products != null ? products : new ArrayList<>();
+        this.products = Optional.ofNullable(products).orElse(new ArrayList<>()).stream()
+                .filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     @JsonIgnore

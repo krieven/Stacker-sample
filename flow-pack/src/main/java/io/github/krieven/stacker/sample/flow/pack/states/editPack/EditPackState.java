@@ -114,7 +114,7 @@ public class EditPackState extends StateQuestion<EditPackStateQ, EditPackStateA,
     }
 
     private StateCompletion onBackAction(EditPackStateA editPackStateA, FlowContext<? extends EditPackStateData> context) {
-        context.getFlowData().getStateModel(this).removeAll();
+        context.getFlowData().getStateModel(this).clean();
         return exitState(Exits.OK, context);
     }
 

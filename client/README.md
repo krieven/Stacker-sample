@@ -20,3 +20,5 @@ when the application switches to the [catalog](../flow-catalog/README.md) compon
 the [catalog.html](./src/main/resources/static/components/computers/catalog.html) module will be loaded, and so on. 
 If modules use shared libraries, then these libraries are loaded into the application only once and only when necessary.
 
+Stacker-sample doesn't explain how to use krieven / W3View, for more information visit
+[krieven / W3View](https://github.com/krieven/W3View) repository on github 

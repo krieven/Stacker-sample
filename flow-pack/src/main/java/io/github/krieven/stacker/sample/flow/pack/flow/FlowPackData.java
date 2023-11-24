@@ -11,25 +11,35 @@ import io.github.krieven.stacker.util.Probe;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * Implementation of FlowData for the flow-pack
  */
 public class FlowPackData implements CallCatalogStateData, EditPackStateData {
-    /**
-     * The argument of flow
-     */
-    private FlowPackRq flowPackRq;
+
+
+    private Integer id;
     private Pack thePack;
     private String addProductCategoryId;
 
     public void setFlowPackRq(FlowPackRq flowPackRq) {
-        this.flowPackRq = flowPackRq;
+        if(flowPackRq == null ){
+            return;
+        }
+        if(flowPackRq.getPack() != null && !flowPackRq.getPack().isEmpty()){
+            thePack = flowPackRq.getPack();
+        }
+        id = flowPackRq.getId();
     }
 
-    public FlowPackRq getFlowPackRq() {
-        return flowPackRq;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Pack getThePack() {
@@ -52,9 +62,6 @@ public class FlowPackData implements CallCatalogStateData, EditPackStateData {
             public void addProduct(@NotNull Product product) {
                 if(thePack == null) {
                     thePack = new Pack();
-                    thePack.setProducts(Probe.tryGet(()->flowPackRq.getPack().getProducts().stream().map(
-                            p -> Product.build(p.getId(),p.getCategory(),p.getName(),p.getPrice(),p.getFields())
-                    ).collect(Collectors.toList())).orElse(new ArrayList<>()));
                 }
                 thePack.getProducts().add(product);
             }
@@ -70,7 +77,8 @@ public class FlowPackData implements CallCatalogStateData, EditPackStateData {
             }
 
             @Override
-            public void removeAll() {
+            public void clean() {
+                id = null;
                 thePack = null;
             }
 
