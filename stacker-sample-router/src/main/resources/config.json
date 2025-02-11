@@ -7,7 +7,6 @@
         "basket": {
           "description": "flow-basket",
           "address": "http://localhost:4000",
-          "access": "EXPORT",
           "mapping": {
             "PACK": "pack"
           }
